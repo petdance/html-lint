@@ -1,0 +1,177 @@
+Revision history HTML::Lint and Test::HTML::Lint.
+
+2.02    Thu Nov  3 11:49:18 CST 2005
+        [ENHANCEMENTS]
+        * The warnings for missing ALT and HEIGHT/WIDTH on your images
+          now give the SRC attribute.
+
+2.00    Tue Sep 20 23:10:39 CDT 2005
+        [CHANGES THAT COULD BREAK YOUR CODE]
+        * I've changed the object structure.  HTML::Lint now has-a
+          HTML::Parser, and no longer is-a HTML::Parser.
+
+        * weblint-cgi and weblint-original are no longer distributed
+          with HTML::Lint.
+
+        * Now requires Perl 5.6.0.
+
+        [FIXES]
+        * Line numbering is now correct if you parse more than one file.
+
+        * Changed t/*.*.t so that they only had one period in the
+          filename. Apparently VMS doesn't like filenames with multiple
+          dots.
+
+1.30    December 3, 2004
+        [ENHANCEMENTS]
+        * Added handling for <HTML xmlns=... xml:lang=...>
+
+        * Fixed <EMBED pluginspace=...>
+
+        * Added handling of <EMBED quality=... and play=...>
+
+1.28    January 27, 2004
+        [ENHANCEMENTS]
+        * Added support for the <EMBED> tag.
+
+        [INTERNALS]
+        * Added more POD coverage.
+
+1.26    December 23, 2003
+        [FIXES]
+        * Fixed warnings if a lint error was found in the first column
+          of the input file.  Thanks, Adam Monsen.
+
+1.25    December 19, 2003
+        [ENHANCEMENTS]
+        * html_ok() clears the HTML::Lint object that gets passed
+          in, if any.  Thanks to Cees Hek.
+
+        [INTERNALS]
+        * Ran everything through Devel::Cover to see what wasn't
+          getting exercised.
+        * Removed _element_stack() which was never used.
+        * Error.pm's internals now eat their own dog food of methods,
+          rather than accessing internals directly.
+        * line(), column() and file() are no longer setters in
+          HTML::Lint.  I sure hope this doesn't break anything for
+          anyone.
+        * Removed some explicit "return undef" stuff.
+
+1.24    September 11, 2003
+        [FIXES]
+        * Removed the check for "input tags can have height &
+          width", because they can't.
+
+1.23    September 02, 2003
+        [ENHANCEMENTS]
+        * The types of errors to find may now be passed in the
+          HTML::Lint constructor.
+        * Can now export the error types from HTML::Lint::Error.
+
+        [DOCUMENTATION]
+        * Fixed a bug in Test::HTML::Lint docs. (Thanks to Leon
+          Brocard and about 90 other people)
+
+1.22    JUNE 11, 2003
+        [ENHANCEMENTS]
+        * Added some docs explaining html_ok()'s optional lint object.
+        * Allowed the NAME attribute in the <IMG> tag.
+
+        [FIXES]
+        * Fixed the version check in t/99.pod.t
+
+1.21    October 9, 2002
+        [ENHANCEMENTS]
+        * Added a test file for pod files
+        * html_ok() now diag()s the test name before spewing the errors.
+        * Made some docs a little more explicit. (Thanks to Ron Savage)
+        * Added the check for missing <HTML>, <HEAD>, <TITLE> and <BODY>.
+        * Added the check for nonrepeatable tags.
+
+        [FIXES]
+        * Ticket #1493: typo in HTML::Lint::HTML4 
+          <ADDRESS> element in HTML4.pm was <ADDRESSS>.  Thanks to Dominic
+          Mitchell for finding it.
+
+1.20    August 22, 2002
+        [ENHANCEMENTS]
+        * Made it run under 5.5.3
+
+1.13    August 5, 2002
+        [ENHANCEMENTS]
+        * Added text-use-entity for detecting control characters.
+
+1.12    August 2, 2002
+        [FIXES]
+        * No longer squawks on html_ok( undef ).  It now specifically fails.
+
+1.11    July 25, 2002
+        [ENHANCEMENTS]
+        * Added the concept of HTML::Lint::Error type, which is one of
+          Structure, Helper or Fluff.
+        * weblint now takes --[no]structure, --[no]helper, --[no]fluff.
+        * Added the ability to overload html_ok()'s HTML::Lint object
+          with one of your own.
+
+        [FIXES]
+        * Fixed line number goof in Test::HTML::Lint
+        * Fixed line positions in weblint on files (URL reading was OK)
+
+1.10    July 17, 2002
+        * Added Test::HTML::Lint
+        * Removed the "use 5.6.0" from everywhere
+        * Included Neil Bowers' original weblint script, in the
+          weblint-original/ directory.  Note that it does NOT get
+          installed.
+
+1.02    July 8, 2002
+        * No functional changes.  It's all in the test suite.
+        * Added a whole mess of *.t files.  They've been in CVS all along,
+          but I forgot to put them in the MANIFEST.  Ooops.
+
+1.01    July 3, 2002
+        * Tests use isa_ok() for more stringent checking of return objects
+        * Added <nobr>.  Ooopsie.
+
+1.00    June 5, 2002
+        * weblint has a --context option to show the line that the error
+          occurs on.
+        * Removed the original weblint log from this Changes file.
+        * Fixed: Unknown tags wouldn't get put into the stack, so you
+          would get two errors: One complaining that it didn't know the
+          tag, and another that the closing tag didn't make sense.
+
+0.94    May 31, 2002
+        * Moved the %HTML::Lint::Error::errors hash to be a package
+          variable, and not initialize it in an INIT block.
+
+0.93    May 28, 2002    
+        * weblint can now read URLs as well as files
+        * Improved the docs in HTML::Lint::Error.
+
+0.92    February 26, 2001
+        * Removed the INIT block in HTML::Error in preparation for
+          Apache::Lint, and so brian's weblint++ can use it.
+        * errors() method respects wantarray (brian d foy)
+        * file(), line(), column(), errcode() and errtext() all return
+          blank instead of undef.
+
+0.91    January 8, 2002
+        * Fixed: Content description tags (<CITE>, <EM>, etc) were
+          not seen as being valid tags.
+
+0.90    July 8, 2001
+        First version of the rewrite as a subclass of HTML::Parser
+
+0.03    May 15, 2001
+        * Fixed t/*.t problems
+
+0.02    May 14, 2001
+        * Packaged and bundled with new namespace
+        * First upload to CPAN
+        
+0.01    April 20, 2001
+        * original version; created by h2xs 1.21 with options
+                -n HTML::Lint -X -A
+        * adapted entirely from Neil Bowers' Weblint package    
