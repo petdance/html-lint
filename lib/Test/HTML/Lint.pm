@@ -120,10 +120,9 @@ sub html_ok {
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-html-lint@rt.cpan.org>,
-or through the web interface at L<http://rt.cpan.org>.  I will be
-notified, and then you'll automatically be notified of progress on
-your bug as I make changes.
+All bugs and requests are now being handled through the Google
+Code issue tracker at http://code.google.com/p/html-lint/issues/list.
+DO NOT send bug reports to http://rt.cpan.org/
 
 =head1 TO DO
 

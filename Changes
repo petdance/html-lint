@@ -1,5 +1,9 @@
 Revision history HTML::Lint and Test::HTML::Lint.
 
+NOTE: All bugs and requests are now being handled through the Google
+Code issue tracker at http://code.google.com/p/html-lint/issues/list.
+DO NOT send bug reports to http://rt.cpan.org/
+
 2.04    Mon Jun  2 10:47:11 CDT 2008
         [FIXES]
         <textarea> now knows about the wrap attribute.
