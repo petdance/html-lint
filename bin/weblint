@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 
+use warnings;
 use strict;
 
 use Getopt::Long;
@@ -41,7 +42,7 @@ for my $url ( @ARGV ) {
     if ( $url =~ /^https?:/ ) {
         eval { require LWP::Simple };
         if ( $@ ) {
-            warn qq{Can't retrieve URLs without LWP::Simple installed};
+            warn q{Can't retrieve URLs without LWP::Simple installed};
             next;
         }
 
@@ -56,7 +57,7 @@ for my $url ( @ARGV ) {
         }
     }
     else {
-        open( my $fh, $url ) or die "Can't open $url: $!";
+        open( my $fh, '<', $url ) or die "Can't open $url: $!";
         @lines = <$fh>;
         close $fh;
     }

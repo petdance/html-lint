@@ -1,5 +1,10 @@
 package HTML::Lint;
 
+use warnings;
+use strict;
+
+use HTML::Lint::Error;
+
 =head1 NAME
 
 HTML::Lint - check for HTML errors in a string or file
@@ -46,9 +51,6 @@ Apache F<error_log>.
 
 =cut
 
-use strict;
-use HTML::Lint::Error;
-
 =head1 METHODS
 
 NOTE: Some of these methods mirror L<HTML::Parser>'s methods, but HTML::Lint
@@ -81,7 +83,7 @@ sub new {
     bless $self, $class;
 
     if ( my $only = $args{only_types} ) {
-        $self->only_types( ref $only eq "ARRAY" ? @{$only} : $only );
+        $self->only_types( ref $only eq 'ARRAY' ? @{$only} : $only );
         delete $args{only_types};
     }
 

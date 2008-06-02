@@ -1,5 +1,6 @@
 package Test::HTML::Lint;
 
+use warnings;
 use strict;
 
 use Test::Builder;
@@ -86,7 +87,7 @@ will clear its errors before using it.
 sub html_ok {
     my $lint;
 
-    if ( ref($_[0]) eq "HTML::Lint" ) {
+    if ( ref($_[0]) eq 'HTML::Lint' ) {
         $lint = shift;
         $lint->newfile();
         $lint->clear_errors();
@@ -107,7 +108,7 @@ sub html_ok {
         $ok = !$nerr;
         $Tester->ok( $ok, $name );
         if ( !$ok ) {
-            my $msg = "Errors:";
+            my $msg = 'Errors:';
             $msg .= " $name" if $name;
             $Tester->diag( $msg );
             $Tester->diag( $_->as_string ) for $lint->errors;

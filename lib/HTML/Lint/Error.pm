@@ -1,8 +1,10 @@
 package HTML::Lint::Error;
 
+use warnings;
 use strict;
 
 use base 'Exporter';
+
 our @EXPORT = ();
 our @EXPORT_OK = qw( STRUCTURE HELPER FLUFF );
 our %EXPORT_TAGS = ( types => [@EXPORT_OK] );
