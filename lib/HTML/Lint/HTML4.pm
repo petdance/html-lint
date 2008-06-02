@@ -111,7 +111,7 @@ our %isKnownAttribute = (
                     qw( abbr align axis bgcolor char charoff colspan headers height nowrap rowspan scope valign width ),
                     _ie_only( qw( background bordercolor bordercolordark bordercolorlight ) ),
                     ),
-    textarea    => _hash( @std, qw( accesskey cols disabled name onblur onchange onfocus onselect readonly rows tabindex ) ),
+    textarea    => _hash( @std, qw( accesskey cols disabled name onblur onchange onfocus onselect readonly rows tabindex wrap ) ),
     th          => _hash( @std,
                     qw( abbr align axis bgcolor char charoff colspan headers height nowrap rowspan scope valign width ),
                     _ie_only( qw( background bordercolor bordercolordark bordercolorlight ) ),

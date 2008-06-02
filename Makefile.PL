@@ -1,14 +1,6 @@
 use strict;
-use ExtUtils::MakeMaker;
-use File::Find;
-use 5.6.0;
-
-find( \&filecheck, "." );
-
-sub filecheck {
-    unlink if /~$/;     # Remove any vi backup files
-    die "Aborting: Swapfile $_ found" if /\.swp$/;
-}
+use ExtUtils::MakeMaker qw( WriteMakefile );
+use 5.006001;
 
 eval { require LWP::Simple; };
 
@@ -21,7 +13,7 @@ NOTE: It seems that you don't have LWP::Simple installed.
 EOF
 }
 
-&WriteMakefile(
+my %parms = (
     NAME            => 'HTML::Lint',
     DISTNAME        => 'HTML-Lint',
     VERSION_FROM    => 'lib/HTML/Lint.pm',
@@ -38,9 +30,78 @@ EOF
     },
     EXE_FILES   => [qw(bin/weblint)],
     dist => {
-        COMPRESS => 'gzip -9f', 
+        COMPRESS => 'gzip -9f',
         SUFFIX => 'gz',
     },
     clean => { FILES => 'HTML-Lint-*' },
-    );
+);
 
+if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
+    $parms{LICENSE} = 'perl';
+}
+
+if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
+    $parms{EXTRA_META} = <<EOF;
+resources:
+    homepage: http://petdance.com/ack/
+    bugtracker: http://code.google.com/p/ack/issues/list
+    license: http://dev.perl.org/licenses/
+    Repository: http://code.google.com/p/ack/source
+    MailingList: http://groups.google.com/group/ack-users
+EOF
+    }
+
+WriteMakefile( %parms );
+
+sub MY::postamble {
+    my $postamble = <<'MAKE_FRAG';
+
+.PHONY: tags critic
+
+tags:
+	ctags -f tags --recurse --totals \
+		--exclude=blib \
+		--exclude=.svn \
+		--exclude='*~' \
+		--languages=Perl --langmap=Perl:+.t \
+
+critic:
+	perlcritic -1 -q -profile perlcriticrc bin/weblint lib/
+
+PROF_ARGS = -Mblib ack --noenv --color --group -w foo ~/parrot
+
+timed: all
+	$(PERL) $(PROF_ARGS) >> /dev/null 2>&1
+
+dprof: all
+	$(PERL) -d:DProf $(PROF_ARGS) >> /dev/null 2>&1
+	dprofpp -R
+
+dproflb: all
+	$(PERL) -d:DProfLB $(PROF_ARGS) >> /dev/null 2>&1
+	dprofpp -R
+
+fastprof: all
+	$(PERL) -d:FastProf $(PROF_ARGS) >> /dev/null 2>&1
+	fprofpp
+
+profile: all
+	$(PERL) -d:Profile $(PROF_ARGS) >> /dev/null 2>&1
+	less prof.out
+
+profiler: all
+	$(PERL) -MDevel::Profiler $(PROF_ARGS) >> /dev/null 2>&1
+	dprofpp -R
+
+smallprof: all
+	$(PERL) -d:SmallProf $(PROF_ARGS) >> /dev/null 2>&1
+	sort -k 2nr,2 smallprof.out | less
+
+nytprof: all
+	$(PERL) -d:NYTProf $(PROF_ARGS) >> /dev/null 2>&1
+	nytprofhtml
+
+MAKE_FRAG
+
+    return $postamble;
+}

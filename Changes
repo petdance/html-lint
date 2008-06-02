@@ -1,5 +1,9 @@
 Revision history HTML::Lint and Test::HTML::Lint.
 
+2.04    Mon Jun  2 10:47:11 CDT 2008
+        [FIXES]
+        <textarea> now knows about the wrap attribute.
+
 2.02    Thu Nov  3 11:49:18 CST 2005
         [ENHANCEMENTS]
         * The warnings for missing ALT and HEIGHT/WIDTH on your images
