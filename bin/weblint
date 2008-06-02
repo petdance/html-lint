@@ -1,5 +1,4 @@
-#!/usr/bin/perl -wT
-# $Id: weblint,v 1.14 2002/08/05 22:03:24 petdance Exp $
+#!/usr/bin/perl -w
 
 use strict;
 

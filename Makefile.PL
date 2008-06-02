@@ -68,7 +68,7 @@ tags:
 critic:
 	perlcritic -1 -q -profile perlcriticrc bin/weblint lib/
 
-PROF_ARGS = -Mblib ack --noenv --color --group -w foo ~/parrot
+PROF_ARGS = -Mblib blib/script/weblint index.html
 
 timed: all
 	$(PERL) $(PROF_ARGS) >> /dev/null 2>&1
