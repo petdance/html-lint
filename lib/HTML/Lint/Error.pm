@@ -98,7 +98,7 @@ sub _expand_error {
     my $specs = $errors{$errcode};
     my $str;
     if ( $specs ) {
-        ($str, $self->{_type}) = @$specs;
+        ($str, $self->{_type}) = @{$specs};
     }
     else {
         $str = "Unknown code: $errcode";
@@ -170,7 +170,7 @@ sub where {
         $col = $self->column;
     }
     $col ||= 0;
-    return sprintf( "(%s:%s)", $line, $col + 1 );
+    return sprintf( '(%s:%s)', $line, $col + 1 );
 }
 
 =head2 as_string()
@@ -182,7 +182,7 @@ Returns a nicely-formatted string for printing out to stdout or some similar use
 sub as_string {
     my $self = shift;
 
-    return sprintf( "%s %s %s", $self->file, $self->where, $self->errtext );
+    return sprintf( '%s %s %s', $self->file, $self->where, $self->errtext );
 }
 
 =head2 file()

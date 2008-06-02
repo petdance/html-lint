@@ -57,6 +57,8 @@ sub import {
     $Tester->plan(@_);
 
     $self->export_to_level(1, $self, @EXPORT);
+
+    return;
 }
 
 =head2 html_ok( [$lint, ] $html, $name )
@@ -85,29 +87,31 @@ sub html_ok {
     my $lint;
 
     if ( ref($_[0]) eq "HTML::Lint" ) {
-	$lint = shift;
-	$lint->newfile();
-	$lint->clear_errors();
-    } else {
-	$lint = HTML::Lint->new;
+        $lint = shift;
+        $lint->newfile();
+        $lint->clear_errors();
+    }
+    else {
+        $lint = HTML::Lint->new;
     }
     my $html = shift;
     my $name = shift;
 
     my $ok = defined $html;
     if ( !$ok ) {
-	$Tester->ok( 0, $name );
-    } else {
-	$lint->parse( $html );
-	my $nerr = scalar $lint->errors;
-	$ok = !$nerr;
+        $Tester->ok( 0, $name );
+    }
+    else {
+        $lint->parse( $html );
+        my $nerr = scalar $lint->errors;
+        $ok = !$nerr;
         $Tester->ok( $ok, $name );
-	if ( !$ok ) {
-	    my $msg = "Errors:";
-	    $msg .= " $name" if $name;
-	    $Tester->diag( $msg );
-	    $Tester->diag( $_->as_string ) for $lint->errors;
-	}
+        if ( !$ok ) {
+            my $msg = "Errors:";
+            $msg .= " $name" if $name;
+            $Tester->diag( $msg );
+            $Tester->diag( $_->as_string ) for $lint->errors;
+        }
     }
 
     return $ok;
@@ -139,7 +143,7 @@ this module is taken.
 
 =head1 LICENSE
 
-Copyright 2003 Andy Lester, All Rights Reserved.
+Copyright 2003-2008 Andy Lester, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

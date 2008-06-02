@@ -64,7 +64,7 @@ C<only_types> parm.
 
 If you want more than one, you must pass an arrayref:
 
-    my $lint = HTML::Lint->new( 
+    my $lint = HTML::Lint->new(
         only_types => [HTML::Lint::Error::STRUCTURE, HTML::Lint::Error::FLUFF] );
 
 =cut
@@ -81,7 +81,7 @@ sub new {
     bless $self, $class;
 
     if ( my $only = $args{only_types} ) {
-        $self->only_types( ref $only eq "ARRAY" ? @$only : $only );
+        $self->only_types( ref $only eq "ARRAY" ? @{$only} : $only );
         delete $args{only_types};
     }
 
@@ -171,6 +171,8 @@ sub clear_errors {
     my $self = shift;
 
     $self->{_errors} = [];
+
+    return;
 }
 
 =head2 $lint->only_types( $type1[, $type2...] )
@@ -225,9 +227,9 @@ sub gripe {
 
 =head2 $lint->newfile( $filename )
 
-Call C<newfile()> whenever you switch to another file in a batch of 
-linting.  Otherwise, the object thinks everything is from the same file.
-Note that the list of errors is NOT cleared.
+Call C<newfile()> whenever you switch to another file in a batch
+of linting.  Otherwise, the object thinks everything is from the
+same file.  Note that the list of errors is NOT cleared.
 
 Note that I<$filename> does NOT need to match what's put into parse()
 or parse_file().  It can be a description, a URL, or whatever.
@@ -268,7 +270,7 @@ use HTML::Tagset 3.03;
 use HTML::Lint::HTML4 qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 use HTML::Entities qw( %char2entity );
 
-our @ISA = qw( HTML::Parser );
+use base 'HTML::Parser';
 
 sub new {
     my $class = shift;
@@ -299,7 +301,6 @@ sub gripe {
 }
 
 sub _start_document {
-    my $self = shift;
 }
 
 sub _end_document {
@@ -310,6 +311,8 @@ sub _end_document {
             $self->gripe( 'doc-tag-required', tag => $tag );
         }
     }
+
+    return;
 }
 
 sub _start {
@@ -342,7 +345,7 @@ sub _start {
         if ( $isNonrepeatable{$tag} ) {
             $self->gripe( 'elem-nonrepeatable',
                             tag => $tag,
-                            where => HTML::Lint::Error::where(@$where)
+                            where => HTML::Lint::Error::where( @{$where} )
                         );
         }
     }
@@ -355,6 +358,8 @@ sub _start {
     if ( $self->can($tagfunc) ) {
         $self->$tagfunc( $tag, @attr );
     }
+
+    return;
 }
 
 sub _text {
@@ -363,11 +368,13 @@ sub _text {
     while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
         my $bad = $1;
         $self->gripe(
-            'text-use-entity', 
+            'text-use-entity',
                 char => sprintf( '\x%02lX', ord($bad) ),
                 entity => $char2entity{ $bad },
         );
     }
+
+    return;
 }
 
 sub _end {
@@ -383,8 +390,8 @@ sub _end {
         if ( $self->_in_context($tag) ) {
             my @leftovers = $self->_element_pop_back_to($tag);
             for ( @leftovers ) {
-                my ($tag,$line,$col) = @$_;
-                $self->gripe( 'elem-unclosed', tag => $tag, 
+                my ($tag,$line,$col) = @{$_};
+                $self->gripe( 'elem-unclosed', tag => $tag,
                         where => HTML::Lint::Error::where($line,$col) )
                         unless $HTML::Tagset::optionalEndTag{$tag};
             } # for
@@ -399,6 +406,8 @@ sub _end {
     if ( $self->can($tagfunc) ) {
         $self->$tagfunc( $tag, $line );
     }
+
+    return;
 }
 
 sub _element_push {
@@ -406,6 +415,8 @@ sub _element_push {
     for ( @_ ) {
         push( @{$self->{_stack}}, [$_,$self->{_line},$self->{_column}] );
     } # while
+
+    return;
 }
 
 sub _find_tag_in_stack {
@@ -413,7 +424,7 @@ sub _find_tag_in_stack {
     my $tag = shift;
     my $stack = $self->{_stack};
 
-    my $offset = @$stack - 1;
+    my $offset = @{$stack} - 1;
     while ( $offset >= 0 ) {
         if ( $stack->[$offset][0] eq $tag ) {
             return $offset;
@@ -453,11 +464,13 @@ sub _start_img {
         # Check sizes
     }
     else {
-        $self->gripe( "elem-img-sizes-missing", src=>$src );
+        $self->gripe( 'elem-img-sizes-missing', src=>$src );
     }
     if ( not defined $attr{alt} ) {
-        $self->gripe( "elem-img-alt-missing", src=>$src );
+        $self->gripe( 'elem-img-alt-missing', src=>$src );
     }
+
+    return;
 }
 
 =head1 BUGS, WISHES AND CORRESPONDENCE
@@ -494,7 +507,7 @@ be notified of progress on your bug as I make changes.
 
 =head1 LICENSE
 
-Copyright 2005 Andy Lester, All Rights Reserved.
+Copyright 2005-2008 Andy Lester, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -508,3 +521,4 @@ Andy Lester, andy at petdance.com
 
 =cut
 
+1;
