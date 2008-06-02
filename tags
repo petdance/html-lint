@@ -14,9 +14,8 @@ HTML::Lint::Error	lib/HTML/Lint/Error.pm	/^package HTML::Lint::Error;$/;"	p
 HTML::Lint::HTML4	lib/HTML/Lint/HTML4.pm	/^package HTML::Lint::HTML4;$/;"	p
 HTML::Lint::Parser	lib/HTML/Lint.pm	/^package HTML::Lint::Parser;$/;"	p
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-MailingList	Makefile.PL	/^    MailingList: http:\/\/groups.google.com\/group\/ack-users$/;"	l
 NOTE	Makefile.PL	/^NOTE: It seems that you don't have LWP::Simple installed.$/;"	l
-Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/ack\/source$/;"	l
+Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/html-lint\/source$/;"	l
 STRUCTURE	lib/HTML/Lint/Error.pm	/^use constant STRUCTURE  => 1;$/;"	c
 TODO	t/10-test-html-lint.t	/^TODO: { # undef should fail$/;"	l
 Test::HTML::Lint	lib/Test/HTML/Lint.pm	/^package Test::HTML::Lint;$/;"	p
@@ -26,7 +25,7 @@ _end	lib/HTML/Lint.pm	/^sub _end {$/;"	s
 _end_document	lib/HTML/Lint.pm	/^sub _end_document {$/;"	s
 _expand_error	lib/HTML/Lint/Error.pm	/^sub _expand_error {$/;"	s
 _find_tag_in_stack	lib/HTML/Lint.pm	/^sub _find_tag_in_stack {$/;"	s
-_hash	lib/HTML/Lint/HTML4.pm	/^sub _hash(@) { my %hash; $hash{$_} = 1 for @_; return \\%hash; }$/;"	s
+_hash	lib/HTML/Lint/HTML4.pm	/^sub _hash   { my %hash; @hash{@_} = (1) x scalar @_; return \\%hash; }$/;"	s
 _ie_only	lib/HTML/Lint/HTML4.pm	/^sub _ie_only { return @_ };$/;"	s
 _in_context	lib/HTML/Lint.pm	/^sub _in_context {$/;"	s
 _ns_only	lib/HTML/Lint/HTML4.pm	/^sub _ns_only { return @_ };$/;"	s
@@ -36,7 +35,7 @@ _start_document	lib/HTML/Lint.pm	/^sub _start_document {$/;"	s
 _start_img	lib/HTML/Lint.pm	/^sub _start_img {$/;"	s
 _text	lib/HTML/Lint.pm	/^sub _text {$/;"	s
 as_string	lib/HTML/Lint/Error.pm	/^sub as_string {$/;"	s
-bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/ack\/issues\/list$/;"	l
+bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/html-lint\/issues\/list$/;"	l
 checkit	t/LintTest.pl	/^sub checkit {$/;"	s
 clear_errors	lib/HTML/Lint.pm	/^sub clear_errors {$/;"	s
 column	lib/HTML/Lint/Error.pm	/^sub column      { my $self = shift; return $self->{_column}     || '' }$/;"	s
@@ -51,7 +50,7 @@ fastprof	Makefile.PL	/^fastprof: all$/;"	l
 file	lib/HTML/Lint/Error.pm	/^sub file        { my $self = shift; return $self->{_file}       || '' }$/;"	s
 get_paragraphed_files	t/LintTest.pl	/^sub get_paragraphed_files {$/;"	s
 gripe	lib/HTML/Lint.pm	/^sub gripe {$/;"	s
-homepage	Makefile.PL	/^    homepage: http:\/\/petdance.com\/ack\/$/;"	l
+homepage	Makefile.PL	/^    homepage: http:\/\/search.cpan.org\/dist\/html-lint$/;"	l
 html_ok	lib/Test/HTML/Lint.pm	/^sub html_ok {$/;"	s
 import	lib/Test/HTML/Lint.pm	/^sub import {$/;"	s
 is_type	lib/HTML/Lint/Error.pm	/^sub is_type {$/;"	s

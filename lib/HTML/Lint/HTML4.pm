@@ -1,5 +1,6 @@
 package HTML::Lint::HTML4;
 
+use warnings;
 use strict;
 
 use base 'Exporter';

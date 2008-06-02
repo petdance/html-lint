@@ -35,4 +35,3 @@ t/pod-coverage.t
 t/random-nobr.t
 t/text-use-entity.t
 t/xhtml-html.t
-META.yml                                 Module meta-data (added by MakeMaker)
