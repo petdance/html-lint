@@ -33,5 +33,6 @@ t/embed-extensions.t
 t/pod.t
 t/pod-coverage.t
 t/random-nobr.t
+t/strong-id.t
 t/text-use-entity.t
 t/xhtml-html.t
