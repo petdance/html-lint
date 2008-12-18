@@ -4,7 +4,8 @@ NOTE: All bugs and requests are now being handled through the Google
 Code issue tracker at http://code.google.com/p/html-lint/issues/list.
 DO NOT send bug reports to http://rt.cpan.org/
 
-NEXT
+
+2.06    Thu Dec 18 00:07:54 CST 2008
         [FIXES]
         Added attributes to <frameset>.
 
