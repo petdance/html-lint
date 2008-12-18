@@ -31,6 +31,9 @@ __DATA__
     </HEAD>
     <BODY BGCOLOR="white">
         <p>
+        A test for <a href="http://code.google.com/p/html-lint/issues/detail?id=2">this bug</a>.
+        </p>
+        <p>
         <strong bongo="This">Bad</strong>
         <strong id="This">Bad</strong>
         </p>
