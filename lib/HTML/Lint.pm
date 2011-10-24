@@ -20,7 +20,7 @@ our $VERSION = '2.06';
 =head1 SYNOPSIS
 
     my $lint = HTML::Lint->new;
-    $lint->only_types( HTML::Lint::STRUCTURE );
+    $lint->only_types( HTML::Lint::Error::STRUCTURE );
 
     $lint->parse( $data );
     $lint->parse_file( $filename );
