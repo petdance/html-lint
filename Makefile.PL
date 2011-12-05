@@ -37,18 +37,19 @@ my %parms = (
 );
 
 if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
-    $parms{LICENSE} = 'perl';
+    $parms{LICENSE} = 'artistic_2';
 }
 
-if ( $ExtUtils::MakeMaker::VERSION ge '6.36' ) {
-    $parms{EXTRA_META} = <<EOF;
-resources:
-    homepage: http://search.cpan.org/dist/html-lint
-    bugtracker: http://code.google.com/p/html-lint/issues/list
-    license: http://dev.perl.org/licenses/
-    Repository: http://code.google.com/p/html-lint/source
-EOF
-    }
+if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
+    $parms{META_ADD} = {
+        resources => {
+            homepage => 'http://search.cpan.org/dist/html-lint',
+            bugtracker => 'https://github.com/petdance/html-lint/issues',
+            license => 'http://www.opensource.org/licenses/artistic-license-2.0.php',
+            Repository => 'https://github.com/petdance/html-lint',
+        }
+    };
+}
 
 WriteMakefile( %parms );
 
