@@ -133,7 +133,7 @@ C<html_page_ok()>.
 If you think this module should do something that it doesn't do at the
 moment please let me know.
 
-=head1 ACKNOWLEGEMENTS
+=head1 ACKNOWLEDGEMENTS
 
 Thanks to chromatic and Michael G Schwern for the excellent Test::Builder,
 without which this module wouldn't be possible.
