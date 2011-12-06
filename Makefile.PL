@@ -24,7 +24,7 @@ my %parms = (
         'Exporter'      => 0,
         'Test::More'    => 0,
         'Test::Builder' => 0,
-        'HTML::Parser'  => '3.20',
+        'HTML::Parser'  => '3.47',
         'HTML::Tagset'  => '3.03',
         'File::Find'    => 0,
     },
