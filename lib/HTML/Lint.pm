@@ -195,6 +195,8 @@ sub only_types {
     my $self = shift;
 
     $self->{_types} = [@_];
+
+    return;
 }
 
 =head2 $lint->gripe( $errcode, [$key1=>$val1, ...] )
@@ -218,13 +220,15 @@ sub gripe {
 
     my $parser = $self->_parser;
 
-    my $error = new HTML::Lint::Error(
+    my $error = HTML::Lint::Error->new(
         $self->{_file}, $parser->{_line}, $parser->{_column}, @_ );
 
     my @keeps = @{$self->{_types}};
     if ( !@keeps || $error->is_type(@keeps) ) {
         push( @{$self->{_errors}}, $error );
     }
+
+    return;
 }
 
 =head2 $lint->newfile( $filename )
