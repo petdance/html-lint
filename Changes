@@ -6,7 +6,7 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
-2.08
+2.10    Tue Dec  6 11:16:16 CST 2011
 
         HTML::Lint is now explicitly licensed under Artistic License 2.0,
         instead of the vague "same terms as Perl itself."
