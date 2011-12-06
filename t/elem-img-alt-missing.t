@@ -13,6 +13,6 @@ __DATA__
     </HEAD>
     <BODY BGCOLOR="white">
 	<P ALIGN=RIGHT>This is my paragraph</P>
-	<IMG SRC="whizbang.jpg" BORDER=3 HEIGHT=4 WIDTH=921>
+	<IMG SRC="whizbang.jpg" BORDER=3 HEIGHT=4 WIDTH=921 />
     </BODY>
 </HTML>

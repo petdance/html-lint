@@ -11,11 +11,11 @@ HTML::Lint - check for HTML errors in a string or file
 
 =head1 VERSION
 
-Version 2.06
+Version 2.08
 
 =cut
 
-our $VERSION = '2.06';
+our $VERSION = '2.08';
 
 =head1 SYNOPSIS
 
@@ -281,12 +281,13 @@ sub new {
     my $self =
         HTML::Parser->new(
             api_version => 3,
-            start_document_h    => [ \&_start_document, 'self' ],
-            end_document_h      => [ \&_end_document,   'self,line,column' ],
-            start_h             => [ \&_start,          'self,tagname,line,column,@attr' ],
-            end_h               => [ \&_end,            'self,tagname,line,column,@attr' ],
-            text_h              => [ \&_text,           'self,text' ],
-            strict_names => 1,
+            start_document_h   => [ \&_start_document, 'self' ],
+            end_document_h     => [ \&_end_document,   'self,line,column' ],
+            start_h            => [ \&_start,          'self,tagname,line,column,@attr' ],
+            end_h              => [ \&_end,            'self,tagname,line,column,tokenpos,@attr' ],
+            text_h             => [ \&_text,           'self,text' ],
+            strict_names       => 0,
+            empty_element_tags => 1,
         );
     bless $self, $class;
 
@@ -380,12 +381,16 @@ sub _text {
 }
 
 sub _end {
-    my ($self,$tag,$line,$column,@attr) = @_;
+    my ($self,$tag,$line,$column,$tokenpos,@attr) = @_;
 
     $self->{_line} = $line;
     $self->{_column} = $column;
 
-    if ( $HTML::Tagset::emptyElement{ $tag } ) {
+    if ( !$tokenpos ) {
+        # This is a dummy end event for something like <img />.
+        # Do nothing.
+    }
+    elsif ( $HTML::Tagset::emptyElement{ $tag } ) {
         $self->gripe( 'elem-empty-but-closed', tag => $tag );
     }
     else {
