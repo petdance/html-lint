@@ -34,7 +34,7 @@ push( @types, HTML::Lint::Error::STRUCTURE ) if $structure;
 push( @types, HTML::Lint::Error::HELPER )    if $helper;
 push( @types, HTML::Lint::Error::FLUFF )     if $fluff;
 
-my $lint = new HTML::Lint;
+my $lint = HTML::Lint->new;
 $lint->only_types( @types ) if @types;
 for my $url ( @ARGV ) {
     my @lines;
