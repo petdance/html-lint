@@ -248,7 +248,7 @@ Andy Lester, C<andy at petdance.com>
     'elem-unclosed' =>          ['<${tag}> at ${where} is never closed', STRUCTURE],
     'elem-empty-but-closed' =>  ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
 
-    'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes.', HELPER],
+    'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
     'elem-img-alt-missing' =>   ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
     'elem-nonrepeatable' =>     ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
 

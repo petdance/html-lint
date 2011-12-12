@@ -3,8 +3,8 @@ use strict;
 require 't/LintTest.pl';
 
 checkit( [
-    [ 'elem-img-sizes-missing' => qr/\Q<IMG SRC="swedish-schwern.jpg"> tag has no HEIGHT and WIDTH attributes./i ],
-    [ 'elem-img-sizes-missing' => qr/\Q<IMG SRC="bongo-bongo.jpg"> tag has no HEIGHT and WIDTH attributes./i ],
+    [ 'elem-img-sizes-missing' => qr/\Q<IMG SRC="swedish-schwern.jpg"> tag has no HEIGHT and WIDTH attributes/i ],
+    [ 'elem-img-sizes-missing' => qr/\Q<IMG SRC="bongo-bongo.jpg"> tag has no HEIGHT and WIDTH attributes/i ],
 ], [<DATA>] );
 
 __DATA__
