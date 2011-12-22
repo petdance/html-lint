@@ -24,17 +24,17 @@ __DATA__
     <body bgcolor="white">
         <img src="alpha.jpg">
 
-        <!-- lint:disable elem-img-sizes-missing -->
+        <!-- html-lint elem-img-sizes-missing: on, attr-unknown: on -->
         <img src="beta.jpg" />
 
-        <!-- lint:disable --><!-- Disables all by default -->
+        <!-- html-lint all: off -->
         <img src="gamma.jpg" />
         <gooble darble="fungo" />
 
-        <!-- lint:enable elem-img-alt-missing -->
+        <!-- html-lint elem-img-alt-missing: on -->
         <img src="delta.jpg">
 
-        <!-- lint:enable -->
+        <!-- html-lint all: on -->
         <img src="epsilon.jpg">
     </body>
 </html>
