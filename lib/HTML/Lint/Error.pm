@@ -66,23 +66,23 @@ Create an object.  It's not very exciting.
 =cut
 
 sub new {
-    my $class = shift;
+    my $class    = shift;
 
-    my $file = shift;
-    my $line = shift;
-    my $column = shift;
-    my $errcode = shift;
+    my $file     = shift;
+    my $line     = shift;
+    my $column   = shift;
+    my $errcode  = shift;
     my @errparms = @_;
 
     # Add an element that says what tag caused the error (B, TR, etc)
     # so that we can match 'em up down the road.
     my $self  = {
-        _file => $file,
-        _line => $line,
-        _column => $column,
+        _file    => $file,
+        _line    => $line,
+        _column  => $column,
         _errcode => $errcode,
         _errtext => undef,
-        _type => undef,
+        _type    => undef,
     };
 
     bless $self, $class;
@@ -213,24 +213,26 @@ Type of the error
 
 =cut
 
-sub file        { my $self = shift; return $self->{_file}       || '' }
-sub line        { my $self = shift; return $self->{_line}       || '' }
-sub column      { my $self = shift; return $self->{_column}     || '' }
-sub errcode     { my $self = shift; return $self->{_errcode}    || '' }
-sub errtext     { my $self = shift; return $self->{_errtext}    || '' }
-sub type        { my $self = shift; return $self->{_type}       || '' }
+sub file        { my $self = shift; return $self->{_file}    || '' }
+sub line        { my $self = shift; return $self->{_line}    || '' }
+sub column      { my $self = shift; return $self->{_column}  || '' }
+sub errcode     { my $self = shift; return $self->{_errcode} || '' }
+sub errtext     { my $self = shift; return $self->{_errtext} || '' }
+sub type        { my $self = shift; return $self->{_type}    || '' }
 
 
 =head1 TODO
 
 None, other than incorporating more errors, as driven by HTML::Lint.
 
-=head1 LICENSE
+=head1 COPYRIGHT & LICENSE
 
-This code may be distributed under the same terms as Perl itself.
+Copyright 2005-2011 Andy Lester.
 
-Please note that these modules are not products of or supported by the
-employers of the various contributors to the code.
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+http://www.opensource.org/licenses/Artistic-2.0
 
 =head1 AUTHOR
 
@@ -243,21 +245,21 @@ Andy Lester, C<andy at petdance.com>
 
 # Generic element stuff
 %errors = (
-    'elem-unknown' =>           ['Unknown element <${tag}>', STRUCTURE],
-    'elem-unopened' =>          ['</${tag}> with no opening <${tag}>', STRUCTURE],
-    'elem-unclosed' =>          ['<${tag}> at ${where} is never closed', STRUCTURE],
-    'elem-empty-but-closed' =>  ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
+    'elem-unknown'           => ['Unknown element <${tag}>', STRUCTURE],
+    'elem-unopened'          => ['</${tag}> with no opening <${tag}>', STRUCTURE],
+    'elem-unclosed'          => ['<${tag}> at ${where} is never closed', STRUCTURE],
+    'elem-empty-but-closed'  => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
 
     'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
-    'elem-img-alt-missing' =>   ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
-    'elem-nonrepeatable' =>     ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
+    'elem-img-alt-missing'   => ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
+    'elem-nonrepeatable'     => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
 
-    'doc-tag-required' =>       ['<${tag}> tag is required', STRUCTURE],
+    'doc-tag-required'       => ['<${tag}> tag is required', STRUCTURE],
 
-    'attr-repeated' =>          ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
-    'attr-unknown' =>           ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+    'attr-repeated'          => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
+    'attr-unknown'           => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
 
-    'text-use-entity' =>        ['Invalid character ${char} should be written as ${entity}', STRUCTURE],
+    'text-use-entity'        => ['Invalid character ${char} should be written as ${entity}', STRUCTURE],
 );
 
 1; # happy
