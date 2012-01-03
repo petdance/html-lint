@@ -1,5 +1,7 @@
 #!perl -Tw
 
+# This test verifies that there is a t/*.t file for every possible Lint error.
+
 use Test::More 'no_plan';
 
 BEGIN {
