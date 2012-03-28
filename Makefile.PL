@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker qw( WriteMakefile );
 use 5.006001;
 
 if ( not eval { require LWP::Simple; 1; } ) {
-    print <<EOF;
+    print <<'EOF';
 
 NOTE: It seems that you don't have LWP::Simple installed.
       The weblint program will not be able to retrieve web pages.
@@ -66,7 +66,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -1 -q -profile perlcriticrc bin/weblint lib/
+	perlcritic -1 -q -profile perlcriticrc lib/ bin/weblint Makefile.PL
 
 PROF_ARGS = -Mblib blib/script/weblint index.html
 
