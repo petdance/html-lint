@@ -10,4 +10,4 @@ BEGIN {
     use_ok( 'Test::HTML::Lint' );
 }
 
-diag( "Testing HTML::Lint $HTML::Lint::VERSION" );
+diag( "Testing HTML::Lint $HTML::Lint::VERSION, Perl $], $^X" );
