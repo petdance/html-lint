@@ -2,10 +2,8 @@ use strict;
 use ExtUtils::MakeMaker qw( WriteMakefile );
 use 5.006001;
 
-eval { require LWP::Simple; };
-
-if ( $@ ) {
-    print <<EOF;
+if ( not eval { require LWP::Simple; 1; } ) {
+    print <<'EOF';
 
 NOTE: It seems that you don't have LWP::Simple installed.
       The weblint program will not be able to retrieve web pages.
@@ -21,12 +19,14 @@ my %parms = (
     PMLIBDIRS       => [qw(lib/)],
     AUTHOR          => 'Andy Lester <andy@petdance.com>',
     PREREQ_PM       => {
-        'Exporter'      => 0,
-        'Test::More'    => 0,
-        'Test::Builder' => 0,
-        'HTML::Parser'  => '3.47',
-        'HTML::Tagset'  => '3.03',
-        'File::Find'    => 0,
+        'Exporter'       => 0,
+        'Test::More'     => 0,
+        'Test::Builder'  => 0,
+
+        'File::Find'     => 0,
+        'HTML::Entities' => 0,
+        'HTML::Parser'   => '3.47',
+        'HTML::Tagset'   => '3.03',
     },
     EXE_FILES   => [qw(bin/weblint)],
     dist => {
@@ -43,9 +43,9 @@ if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VER
 if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
     $parms{META_ADD} = {
         resources => {
-            homepage => 'http://search.cpan.org/dist/html-lint',
+            homepage   => 'http://search.cpan.org/dist/html-lint',
             bugtracker => 'https://github.com/petdance/html-lint/issues',
-            license => 'http://www.opensource.org/licenses/artistic-license-2.0.php',
+            license    => 'http://www.opensource.org/licenses/artistic-license-2.0.php',
             Repository => 'https://github.com/petdance/html-lint',
         }
     };
@@ -66,7 +66,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -1 -q -profile perlcriticrc bin/weblint lib/
+	perlcritic -1 -q -profile perlcriticrc lib/ bin/weblint Makefile.PL
 
 PROF_ARGS = -Mblib blib/script/weblint index.html
 

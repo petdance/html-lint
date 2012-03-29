@@ -35,4 +35,6 @@ t/pod-coverage.t
 t/random-nobr.t
 t/strong-id.t
 t/text-use-entity.t
+t/text-unknown-entity.t
+t/text-unclosed-entity.t
 t/xhtml-html.t

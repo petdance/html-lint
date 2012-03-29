@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.7	//
+!_TAG_PROGRAM_VERSION	5.8	//
 CONSTRUCTOR_METHOD_ARRAYREF	t/20-error-types-skip.t	/^CONSTRUCTOR_METHOD_ARRAYREF: {$/;"	l
 CONSTRUCTOR_METHOD_SCALAR	t/20-error-types-skip.t	/^CONSTRUCTOR_METHOD_SCALAR: {$/;"	l
 FLUFF	lib/HTML/Lint/Error.pm	/^use constant FLUFF      => 3;$/;"	c
@@ -13,9 +13,6 @@ HTML::Lint	lib/HTML/Lint.pm	/^package HTML::Lint;$/;"	p
 HTML::Lint::Error	lib/HTML/Lint/Error.pm	/^package HTML::Lint::Error;$/;"	p
 HTML::Lint::HTML4	lib/HTML/Lint/HTML4.pm	/^package HTML::Lint::HTML4;$/;"	p
 HTML::Lint::Parser	lib/HTML/Lint.pm	/^package HTML::Lint::Parser;$/;"	p
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-NOTE	Makefile.PL	/^NOTE: It seems that you don't have LWP::Simple installed.$/;"	l
-Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/html-lint\/source$/;"	l
 STRUCTURE	lib/HTML/Lint/Error.pm	/^use constant STRUCTURE  => 1;$/;"	c
 TODO	t/10-test-html-lint.t	/^TODO: { # undef should fail$/;"	l
 Test::HTML::Lint	lib/Test/HTML/Lint.pm	/^package Test::HTML::Lint;$/;"	p
@@ -35,39 +32,25 @@ _start_document	lib/HTML/Lint.pm	/^sub _start_document {$/;"	s
 _start_img	lib/HTML/Lint.pm	/^sub _start_img {$/;"	s
 _text	lib/HTML/Lint.pm	/^sub _text {$/;"	s
 as_string	lib/HTML/Lint/Error.pm	/^sub as_string {$/;"	s
-bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/html-lint\/issues\/list$/;"	l
 checkit	t/LintTest.pl	/^sub checkit {$/;"	s
 clear_errors	lib/HTML/Lint.pm	/^sub clear_errors {$/;"	s
 column	lib/HTML/Lint/Error.pm	/^sub column      { my $self = shift; return $self->{_column}     || '' }$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
-dprof	Makefile.PL	/^dprof: all$/;"	l
-dproflb	Makefile.PL	/^dproflb: all$/;"	l
 eof	lib/HTML/Lint.pm	/^sub eof {$/;"	s
 errcode	lib/HTML/Lint/Error.pm	/^sub errcode     { my $self = shift; return $self->{_errcode}    || '' }$/;"	s
 errors	lib/HTML/Lint.pm	/^sub errors {$/;"	s
 errtext	lib/HTML/Lint/Error.pm	/^sub errtext     { my $self = shift; return $self->{_errtext}    || '' }$/;"	s
-fastprof	Makefile.PL	/^fastprof: all$/;"	l
 file	lib/HTML/Lint/Error.pm	/^sub file        { my $self = shift; return $self->{_file}       || '' }$/;"	s
 get_paragraphed_files	t/LintTest.pl	/^sub get_paragraphed_files {$/;"	s
 gripe	lib/HTML/Lint.pm	/^sub gripe {$/;"	s
-homepage	Makefile.PL	/^    homepage: http:\/\/search.cpan.org\/dist\/html-lint$/;"	l
 html_ok	lib/Test/HTML/Lint.pm	/^sub html_ok {$/;"	s
 import	lib/Test/HTML/Lint.pm	/^sub import {$/;"	s
 is_type	lib/HTML/Lint/Error.pm	/^sub is_type {$/;"	s
-license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 line	lib/HTML/Lint/Error.pm	/^sub line        { my $self = shift; return $self->{_line}       || '' }$/;"	s
 new	lib/HTML/Lint.pm	/^sub new {$/;"	s
 new	lib/HTML/Lint/Error.pm	/^sub new {$/;"	s
 newfile	lib/HTML/Lint.pm	/^sub newfile {$/;"	s
-nytprof	Makefile.PL	/^nytprof: all$/;"	l
 only_types	lib/HTML/Lint.pm	/^sub only_types {$/;"	s
 parse	lib/HTML/Lint.pm	/^sub parse {$/;"	s
 parse_file	lib/HTML/Lint.pm	/^sub parse_file {$/;"	s
-profile	Makefile.PL	/^profile: all$/;"	l
-profiler	Makefile.PL	/^profiler: all$/;"	l
-resources	Makefile.PL	/^resources:$/;"	l
-smallprof	Makefile.PL	/^smallprof: all$/;"	l
-tags	Makefile.PL	/^tags:$/;"	l
-timed	Makefile.PL	/^timed: all$/;"	l
 type	lib/HTML/Lint/Error.pm	/^sub type        { my $self = shift; return $self->{_type}       || '' }$/;"	s
 where	lib/HTML/Lint/Error.pm	/^sub where {$/;"	s

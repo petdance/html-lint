@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use HTML::Lint::Error;
+use HTML::Entities ();
 
 =head1 NAME
 
@@ -11,11 +12,11 @@ HTML::Lint - check for HTML errors in a string or file
 
 =head1 VERSION
 
-Version 2.10
+Version 2.11_01
 
 =cut
 
-our $VERSION = '2.10';
+our $VERSION = '2.11_01';
 
 =head1 SYNOPSIS
 
@@ -80,7 +81,6 @@ sub new {
         _types  => [],
         _flags  => {},
     };
-    $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
     bless $self, $class;
 
     if ( my $only = $args{only_types} ) {
@@ -93,7 +93,24 @@ sub new {
     return $self;
 }
 
-=head2 $lint->parse( $chunk )
+=head2 $lint->parser()
+
+Returns the parser object for this object, creating one if necessary.
+
+=cut
+
+sub parser {
+    my $self = shift;
+
+    if ( not $self->{_parser} ) {
+        $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
+        $self->{_parser}->ignore_elements( qw(script style) );
+    }
+
+    return $self->{_parser};
+}
+
+=head2 $lint->parse( $text )
 
 =head2 $lint->parse( $code_ref )
 
@@ -105,7 +122,8 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse {
     my $self = shift;
-    return $self->_parser->parse( @_ );
+
+    return $self->parser->parse( @_ );
 }
 
 =head2 $lint->parse_file( $file )
@@ -118,7 +136,7 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse_file {
     my $self = shift;
-    return $self->_parser->parse_file( @_ );
+    return $self->parser->parse_file( @_ );
 }
 
 =head2 $lint->eof
@@ -135,9 +153,9 @@ sub eof {
     my $self = shift;
 
     my $rc;
-    my $parser = $self->_parser;
+    my $parser = $self->parser;
     if ( $parser ) {
-        $rc = $self->_parser->eof(@_);
+        $rc = $self->parser->eof(@_);
         delete $self->{_parser};
     }
 
@@ -231,10 +249,8 @@ in case, here you go.
 sub gripe {
     my $self = shift;
 
-    my $parser = $self->_parser;
-
     my $error = HTML::Lint::Error->new(
-        $self->{_file}, $parser->{_line}, $parser->{_column}, @_ );
+        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, @_ );
 
     my @keeps = @{$self->{_types}};
     if ( !@keeps || $error->is_type(@keeps) ) {
@@ -260,7 +276,6 @@ sub newfile {
     my $file = shift;
 
     delete $self->{_parser};
-    $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
     $self->{_file} = $file;
     $self->{_line} = 0;
     $self->{_column} = 0;
@@ -268,12 +283,6 @@ sub newfile {
 
     return $self->{_file};
 } # newfile
-
-sub _parser {
-    my $self = shift;
-
-    return $self->{_parser};
-}
 
 =pod
 
@@ -386,6 +395,10 @@ sub _start {
 sub _text {
     my ($self,$text) = @_;
 
+    while ( $text =~ /&(?![#0-9a-z])/ig ) {
+        $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
+    }
+
     while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
         my $bad = $1;
         $self->gripe(
@@ -393,6 +406,50 @@ sub _text {
                 char => sprintf( '\x%02lX', ord($bad) ),
                 entity => $char2entity{ $bad },
         );
+    }
+
+    if ( not $self->{_unclosed_entities_regex} ) {
+        # Get Gisle's list
+        my @entities = sort keys %HTML::Entities::entity2char;
+
+        # Strip his semicolons
+        s/;$// for @entities;
+
+        # Build a regex
+        my $entities = join( '|', @entities );
+        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
+
+        $self->{_entity_lookup} = { map { ($_,1) } @entities };
+    }
+
+    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
+        my $ent = $1;
+        $self->gripe( 'text-unclosed-entity', entity => "&$ent;" );
+    }
+
+    while ( $text =~ m/&([^;]+);/g ) {
+        my $ent = $1;
+
+        # Numeric entities are fine, if they're not too large.
+        if ( $ent =~ /^#(\d+)$/ ) {
+            if ( $1 > 65536 ) {
+                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # Hex entities are fine, if they're not too large.
+        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
+            if ( length($1) > 4 ) {
+                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # If it's not a numeric entity, then check the lookup table.
+        if ( !exists $self->{_entity_lookup}{$ent} ) {
+            $self->gripe( 'text-unknown-entity', entity => "&$ent;" );
+        }
     }
 
     return;

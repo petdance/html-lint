@@ -6,6 +6,12 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
+NEXT
+        Added check for unknown entities (&foo;) and unclosed entitities
+        (&amp with a semicolon).
+
+        Added a check for a bare ampersand that should be written as &amp;
+
 2.10    Tue Dec  6 11:16:16 CST 2011
 
         HTML::Lint is now explicitly licensed under Artistic License 2.0,
