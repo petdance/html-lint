@@ -28,5 +28,7 @@ __DATA__
         And here's an icon of a deceased cow: &#xdeadbeef; <!-- Invalid because we cap at xFFFF -->
         <p>
         Another deceased cow: &xdeadbeef; <!-- Not a valid hex entity, but unknown to our lookup tables -->
+        <p>
+        Here's an awesome link to <a href="http://www.youtube.com/watch?v=8yLhA0ROGi4&feature=related">"You Better Swim"</a> from the SpongeBob movie.
     </body>
 </html>

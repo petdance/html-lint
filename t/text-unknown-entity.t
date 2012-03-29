@@ -16,5 +16,7 @@ __DATA__
     </head>
     <body bgcolor="white">
         Thanks for visiting Ace of &#9824; <!-- Numeric version of &spades; -->
+        <p>
+        Here's an awesome link to <a href="http://www.youtube.com/watch?v=8yLhA0ROGi4&feature=related">"You Better Swim"</a> from the SpongeBob movie.
     </body>
 </html>
