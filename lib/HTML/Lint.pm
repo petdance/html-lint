@@ -78,9 +78,8 @@ sub new {
 
     my $self = {
         _errors => [],
-        _types => [],
+        _types  => [],
     };
-    $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
     bless $self, $class;
 
     if ( my $only = $args{only_types} ) {
@@ -91,6 +90,23 @@ sub new {
     warn "Unknown argument $_\n" for keys %args;
 
     return $self;
+}
+
+=head2 $lint->parser()
+
+Returns the parser object for this object, creating one if necessary.
+
+=cut
+
+sub parser {
+    my $self = shift;
+
+    if ( not $self->{_parser} ) {
+        $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
+        $self->{_parser}->ignore_elements( qw(script style) );
+    }
+
+    return $self->{_parser};
 }
 
 =head2 $lint->parse( $text )
@@ -105,12 +121,8 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse {
     my $self = shift;
-    my @args = shift;
 
-    my $parser = $self->_parser();
-    my $rc = $parser->parse( @args );
-
-    return $rc;
+    return $self->parser->parse( @_ );
 }
 
 =head2 $lint->parse_file( $file )
@@ -123,7 +135,7 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse_file {
     my $self = shift;
-    return $self->_parser->parse_file( @_ );
+    return $self->parser->parse_file( @_ );
 }
 
 =head2 $lint->eof
@@ -140,9 +152,9 @@ sub eof {
     my $self = shift;
 
     my $rc;
-    my $parser = $self->_parser;
+    my $parser = $self->parser;
     if ( $parser ) {
-        $rc = $self->_parser->eof(@_);
+        $rc = $self->parser->eof(@_);
         delete $self->{_parser};
     }
 
@@ -224,10 +236,8 @@ in case, here you go.
 sub gripe {
     my $self = shift;
 
-    my $parser = $self->_parser;
-
     my $error = HTML::Lint::Error->new(
-        $self->{_file}, $parser->{_line}, $parser->{_column}, @_ );
+        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, @_ );
 
     my @keeps = @{$self->{_types}};
     if ( !@keeps || $error->is_type(@keeps) ) {
@@ -253,7 +263,6 @@ sub newfile {
     my $file = shift;
 
     delete $self->{_parser};
-    $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
     $self->{_file} = $file;
     $self->{_line} = 0;
     $self->{_column} = 0;
@@ -261,12 +270,6 @@ sub newfile {
 
     return $self->{_file};
 } # newfile
-
-sub _parser {
-    my $self = shift;
-
-    return $self->{_parser};
-}
 
 =pod
 
