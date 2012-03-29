@@ -6,7 +6,7 @@ use strict;
 use Test::Builder;
 use Exporter;
 
-use HTML::Lint 2.10;
+use HTML::Lint;
 
 use vars qw( @ISA $VERSION @EXPORT );
 
@@ -18,11 +18,11 @@ Test::HTML::Lint - Test::More-style wrapper around HTML::Lint
 
 =head1 VERSION
 
-Version 2.10
+Version 2.11_01
 
 =cut
 
-$VERSION = '2.10';
+$VERSION = '2.11_01';
 
 my $Tester = Test::Builder->new;
 
