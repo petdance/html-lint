@@ -120,12 +120,22 @@ sub parse {
         # Build a regex
         my $entities = join( '|', @entities );
         $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
-        print $self->{_unclosed_entities_regex}, "\n";
+
+        $self->{_entity_lookup} = { map { ($_,1) } @entities };
     }
 
-    {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( \@args )}
-    if ( $args[0] =~ $self->{_unclosed_entities_regex} ) {
-        push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unclosed-entity', entity => "&$1;" );
+    my $text = $args[0];
+    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
+        my $ent = $1;
+        push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unclosed-entity', entity => "&$ent;" );
+    }
+
+    while ( $text =~ m/&([^;]+);/g ) {
+        my $ent = $1;
+        next if $ent =~ /^#\d+$/; # Properly formed numeric entities are fine.
+        if ( !exists $self->{_entity_lookup}{$ent} ) {
+            push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unknown-entity', entity => "&$ent;" );
+        }
     }
 
     return $rc;
