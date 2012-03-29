@@ -423,6 +423,10 @@ sub _start {
 sub _text {
     my ($self,$text) = @_;
 
+    while ( $text =~ /&(?![#0-9a-z])/ig ) {
+        $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
+    }
+
     while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
         my $bad = $1;
         $self->gripe(
