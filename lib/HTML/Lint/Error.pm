@@ -55,9 +55,10 @@ This is usually something like an unknown attribute on a tag.
 
 =cut
 
-use constant STRUCTURE  => 1;
-use constant HELPER     => 2;
-use constant FLUFF      => 3;
+use constant CONFIG     => 1;
+use constant STRUCTURE  => 2;
+use constant HELPER     => 3;
+use constant FLUFF      => 4;
 
 =head2 new()
 
@@ -227,7 +228,7 @@ None, other than incorporating more errors, as driven by HTML::Lint.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2011 Andy Lester.
+Copyright 2005-2012 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License v2.0.
@@ -245,6 +246,7 @@ Andy Lester, C<andy at petdance.com>
 
 # Generic element stuff
 %errors = (
+    'config-unknown-setting' => ['Unknown setting "${setting}"', CONFIG],
     'elem-unknown'           => ['Unknown element <${tag}>', STRUCTURE],
     'elem-unopened'          => ['</${tag}> with no opening <${tag}>', STRUCTURE],
     'elem-unclosed'          => ['<${tag}> at ${where} is never closed', STRUCTURE],

@@ -77,7 +77,8 @@ sub new {
 
     my $self = {
         _errors => [],
-        _types => [],
+        _types  => [],
+        _flags  => {},
     };
     $self->{_parser} = HTML::Lint::Parser->new( sub { $self->gripe( @_ ) } );
     bless $self, $class;
@@ -173,6 +174,18 @@ sub clear_errors {
     my $self = shift;
 
     $self->{_errors} = [];
+
+    return;
+}
+
+=head2 $lint->set_flags( $which, $what )
+
+=cut
+
+sub set_flags {
+    my $self  = shift;
+    my $which = shift;
+    my $what  = shift;
 
     return;
 }
@@ -289,6 +302,7 @@ sub new {
             end_document_h     => [ \&_end_document,   'self,line,column' ],
             start_h            => [ \&_start,          'self,tagname,line,column,@attr' ],
             end_h              => [ \&_end,            'self,tagname,line,column,tokenpos,@attr' ],
+            comment_h          => [ \&_comment,        'self,tagname,line,column,text' ],
             text_h             => [ \&_text,           'self,text' ],
             strict_names       => 0,
             empty_element_tags => 1,
@@ -382,6 +396,53 @@ sub _text {
     }
 
     return;
+}
+
+sub _comment {
+    my ($self,$tagname,$line,$column,$text) = @_;
+
+    if ( $tagname =~ m/^\s*html-lint\s*(.+)\s*$/ ) {
+        my $text = $1;
+
+        my @commands = split( /\s*,\s*/, $text );
+
+        for my $command ( @commands ) {
+            print "command=[$command]\n";
+            my ($which,$what) = split( /\s*:\s*/, $command, 2 );
+            _trim($_) for ($which,$what);
+            print "which,what=[$which][$what]\n";
+
+            my ($val,$msg) = _translate_what( $what );
+
+            if ($msg) {
+                $self->gripe( 'config-unknown-setting', setting => $what,
+                        where => HTML::Lint::Error::where($line,$column) );
+                next;
+            }
+
+            $self->{_flags}{$which} = $val;
+        }
+    }
+
+    return;
+}
+
+sub _translate_what {
+    my $what = shift;
+
+    print "[$what]\n";
+
+    $what = _trim( $what );
+    return (1,undef) if $what =~ /^(?:1|on|true)$/;
+    return (0,undef) if $what =~ /^(?:0|off|false)$/;
+    return (undef,qq{Unknown status "$what"});
+}
+
+sub _trim {
+    $_[0] =~ s/^\s+//;
+    $_[0] =~ s/\s+$//;
+
+    return $_[0];
 }
 
 sub _end {
@@ -516,10 +577,10 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2011 Andy Lester.
+Copyright 2005-2012 Andy Lester.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the Artistic License v2.0.
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
 
 http://www.opensource.org/licenses/Artistic-2.0
 
