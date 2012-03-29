@@ -110,51 +110,6 @@ sub parse {
     my $parser = $self->_parser();
     my $rc = $parser->parse( @args );
 
-    if ( not $self->{_unclosed_entities_regex} ) {
-        # Get Gisle's list
-        my @entities = sort keys %HTML::Entities::entity2char;
-
-        # Strip his semicolons
-        s/;$// for @entities;
-
-        # Build a regex
-        my $entities = join( '|', @entities );
-        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
-
-        $self->{_entity_lookup} = { map { ($_,1) } @entities };
-    }
-
-    my $text = $args[0];
-    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
-        my $ent = $1;
-        push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unclosed-entity', entity => "&$ent;" );
-    }
-
-    while ( $text =~ m/&([^;]+);/g ) {
-        my $ent = $1;
-
-        # Numeric entities are fine, if they're not too large.
-        if ( $ent =~ /^#(\d+)$/ ) {
-            if ( $1 > 65536 ) {
-                push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-invalid-entity', entity => "&$ent;" );
-            }
-            next;
-        }
-
-        # Hex entities are fine, if they're not too large.
-        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
-            if ( length($1) > 4 ) {
-                push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-invalid-entity', entity => "&$ent;" );
-            }
-            next;
-        }
-
-        # If it's not a numeric entity, then check the lookup table.
-        if ( !exists $self->{_entity_lookup}{$ent} ) {
-            push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unknown-entity', entity => "&$ent;" );
-        }
-    }
-
     return $rc;
 }
 
@@ -434,6 +389,50 @@ sub _text {
                 char => sprintf( '\x%02lX', ord($bad) ),
                 entity => $char2entity{ $bad },
         );
+    }
+
+    if ( not $self->{_unclosed_entities_regex} ) {
+        # Get Gisle's list
+        my @entities = sort keys %HTML::Entities::entity2char;
+
+        # Strip his semicolons
+        s/;$// for @entities;
+
+        # Build a regex
+        my $entities = join( '|', @entities );
+        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
+
+        $self->{_entity_lookup} = { map { ($_,1) } @entities };
+    }
+
+    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
+        my $ent = $1;
+        $self->gripe( 'text-unclosed-entity', entity => "&$ent;" );
+    }
+
+    while ( $text =~ m/&([^;]+);/g ) {
+        my $ent = $1;
+
+        # Numeric entities are fine, if they're not too large.
+        if ( $ent =~ /^#(\d+)$/ ) {
+            if ( $1 > 65536 ) {
+                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # Hex entities are fine, if they're not too large.
+        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
+            if ( length($1) > 4 ) {
+                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # If it's not a numeric entity, then check the lookup table.
+        if ( !exists $self->{_entity_lookup}{$ent} ) {
+            $self->gripe( 'text-unknown-entity', entity => "&$ent;" );
+        }
     }
 
     return;
