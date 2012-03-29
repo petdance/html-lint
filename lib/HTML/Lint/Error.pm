@@ -260,7 +260,7 @@ Andy Lester, C<andy at petdance.com>
     'text-invalid-entity'    => ['Entity ${entity} is invalid', STRUCTURE],
     'text-unclosed-entity'   => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
     'text-unknown-entity'    => ['Entity ${entity} is unknown', STRUCTURE],
-    'text-use-entity'        => ['Invalid character ${char} should be written as ${entity}', STRUCTURE],
+    'text-use-entity'        => ['Character "${char}" should be written as ${entity}', STRUCTURE],
 );
 
 1; # happy
