@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use HTML::Lint::Error;
+use HTML::Entities ();
 
 =head1 NAME
 
@@ -92,7 +93,7 @@ sub new {
     return $self;
 }
 
-=head2 $lint->parse( $chunk )
+=head2 $lint->parse( $text )
 
 =head2 $lint->parse( $code_ref )
 
@@ -104,7 +105,30 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse {
     my $self = shift;
-    return $self->_parser->parse( @_ );
+    my @args = shift;
+
+    my $parser = $self->_parser();
+    my $rc = $parser->parse( @args );
+
+    if ( not $self->{_unclosed_entities_regex} ) {
+        # Get Gisle's list
+        my @entities = sort keys %HTML::Entities::entity2char;
+
+        # Strip his semicolons
+        s/;$// for @entities;
+
+        # Build a regex
+        my $entities = join( '|', @entities );
+        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
+        print $self->{_unclosed_entities_regex}, "\n";
+    }
+
+    {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( \@args )}
+    if ( $args[0] =~ $self->{_unclosed_entities_regex} ) {
+        push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unclosed-entity', entity => "&$1;" );
+    }
+
+    return $rc;
 }
 
 =head2 $lint->parse_file( $file )
@@ -516,7 +540,7 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2011 Andy Lester.
+Copyright 2005-2012 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License v2.0.

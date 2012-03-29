@@ -243,21 +243,23 @@ Andy Lester, C<andy at petdance.com>
 
 # Generic element stuff
 %errors = (
-    'elem-unknown' =>           ['Unknown element <${tag}>', STRUCTURE],
-    'elem-unopened' =>          ['</${tag}> with no opening <${tag}>', STRUCTURE],
-    'elem-unclosed' =>          ['<${tag}> at ${where} is never closed', STRUCTURE],
-    'elem-empty-but-closed' =>  ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
+    'elem-unknown'           => ['Unknown element <${tag}>', STRUCTURE],
+    'elem-unopened'          => ['</${tag}> with no opening <${tag}>', STRUCTURE],
+    'elem-unclosed'          => ['<${tag}> at ${where} is never closed', STRUCTURE],
+    'elem-empty-but-closed'  => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
 
     'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes.', HELPER],
-    'elem-img-alt-missing' =>   ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
-    'elem-nonrepeatable' =>     ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
+    'elem-img-alt-missing'   => ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
+    'elem-nonrepeatable'     => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
 
-    'doc-tag-required' =>       ['<${tag}> tag is required', STRUCTURE],
+    'doc-tag-required'       => ['<${tag}> tag is required', STRUCTURE],
 
-    'attr-repeated' =>          ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
-    'attr-unknown' =>           ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+    'attr-repeated'          => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
+    'attr-unknown'           => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
 
-    'text-use-entity' =>        ['Invalid character ${char} should be written as ${entity}', STRUCTURE],
+    'text-unclosed-entity'   => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
+    'text-unknown-entity'    => ['Entity ${entity} is unknown', STRUCTURE],
+    'text-use-entity'        => ['Invalid character ${char} should be written as ${entity}', STRUCTURE],
 );
 
 1; # happy
