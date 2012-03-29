@@ -132,7 +132,24 @@ sub parse {
 
     while ( $text =~ m/&([^;]+);/g ) {
         my $ent = $1;
-        next if $ent =~ /^#\d+$/; # Properly formed numeric entities are fine.
+
+        # Numeric entities are fine, if they're not too large.
+        if ( $ent =~ /^#(\d+)$/ ) {
+            if ( $1 > 65536 ) {
+                push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # Hex entities are fine, if they're not too large.
+        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
+            if ( length($1) > 4 ) {
+                push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-invalid-entity', entity => "&$ent;" );
+            }
+            next;
+        }
+
+        # If it's not a numeric entity, then check the lookup table.
         if ( !exists $self->{_entity_lookup}{$ent} ) {
             push @{$self->{_errors}}, HTML::Lint::Error->new( $parser->{_file}, 1, 1, 'text-unknown-entity', entity => "&$ent;" );
         }

@@ -15,6 +15,6 @@ __DATA__
         <title>Ace of &spades;: A tribute to Mot&ouml;rhead. &#174; &metalhorns;</title>
     </head>
     <body bgcolor="white">
-        Mot&ouml;rhead rulez!
+        Thanks for visiting Ace of &#9824; <!-- Numeric version of &spades; -->
     </body>
 </html>
