@@ -6,6 +6,7 @@ bin/weblint
 lib/HTML/Lint.pm
 lib/HTML/Lint/Error.pm
 lib/HTML/Lint/HTML4.pm
+lib/HTML/Lint/Parser.pm
 lib/Test/HTML/Lint.pm
 t/LintTest.pl
 t/00-load.t
