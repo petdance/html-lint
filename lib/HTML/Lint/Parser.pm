@@ -9,6 +9,8 @@ use HTML::Tagset 3.03;
 use HTML::Lint::HTML4 qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 use HTML::Entities qw( %char2entity );
 
+use base 'HTML::Parser';
+
 =head1 NAME
 
 HTML::Lint::Parser - Parser for HTML::Lint.  No user-serviceable parts inside.
@@ -17,9 +19,16 @@ HTML::Lint::Parser - Parser for HTML::Lint.  No user-serviceable parts inside.
 
 See L<HTML::Lint> for all the gory details.
 
-=cut
+=head1 METHODS
 
-use base 'HTML::Parser';
+=head2 new( $gripe )
+
+Constructor for the main parsing object.  The I<$gripe> argument
+is a coderef to a function that can handle errors from the parser.
+It is only ever (so far) C<HTML::Lint::gripe()>.
+
+=cut=
+
 
 sub new {
     my $class = shift;
@@ -45,6 +54,15 @@ sub new {
 
     return $self;
 }
+
+=head2 $parser->gripe( $errorcode, [ arg1=>val1, ...] )
+
+Calls the passed-in gripe function.
+
+If a given directive has been set to turn off a given message, then
+the parent gripe never gets called.
+
+=cut
 
 sub gripe {
     my $self      = shift;
