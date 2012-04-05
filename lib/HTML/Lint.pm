@@ -458,6 +458,7 @@ sub _text {
 sub _comment {
     my ($self,$tagname,$line,$column,$text) = @_;
 
+    # Look for the html-lint directives
     if ( $tagname =~ m/^\s*html-lint\s*(.+)\s*$/ ) {
         my $text = $1;
 
@@ -601,6 +602,38 @@ sub _start_img {
 
     return;
 }
+
+=head1 MODIFYING HTML::LINT'S BEHAVIOR
+
+Sometimes you'll have HTML that for some reason cannot conform to
+HTML::Lint's expectations.  For those instances, you can use HTML
+comments to modify HTML::Lint's behavior.
+
+Say you have an image where for whatever reason you can't get
+dimensions for the image.  This HTML snippet:
+
+    <img src="logo.png" height="120" width="50" alt="Company logo">
+    <img src="that.png">
+
+causes this error:
+
+    foo.html (14:20) <img src="that.png"> tag has no HEIGHT and WIDTH attributes
+
+But if for some reason you can't get those dimensions when you build
+the page, you can at least stop HTML::Lint complaining about it.
+
+    <img src="this.png" height="120" width="50" alt="Company logo">
+    <!-- html-lint elem-img-sizes-missing: off, elem-img-alt-missing: off -->
+    <img src="that.png">
+    <!-- html-lint elem-img-sizes-missing: on, elem-img-alt-missing: off -->
+
+If you want to turn off all HTML::Lint warnings for a block of code, use
+
+    <!-- html-lint all: off -->
+
+And turn them back on with
+
+    <!-- html-lint all: off -->
 
 =head1 BUGS, WISHES AND CORRESPONDENCE
 
