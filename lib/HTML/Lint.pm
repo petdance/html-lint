@@ -4,6 +4,8 @@ use warnings;
 use strict;
 
 use HTML::Lint::Error;
+use HTML::Lint::Parser ();
+
 use HTML::Entities ();
 
 =head1 NAME
@@ -12,11 +14,11 @@ HTML::Lint - check for HTML errors in a string or file
 
 =head1 VERSION
 
-Version 2.11_01
+Version 2.12
 
 =cut
 
-our $VERSION = '2.11_01';
+our $VERSION = '2.12';
 
 =head1 SYNOPSIS
 
@@ -247,6 +249,7 @@ sub gripe {
     return;
 }
 
+
 =head2 $lint->newfile( $filename )
 
 Call C<newfile()> whenever you switch to another file in a batch
@@ -271,275 +274,45 @@ sub newfile {
     return $self->{_file};
 } # newfile
 
-=pod
+1;
 
-HTML::Lint::Parser is a class only for this module.
+=head1 MODIFYING HTML::LINT'S BEHAVIOR
 
-=cut
+Sometimes you'll have HTML that for some reason cannot conform to
+HTML::Lint's expectations.  For those instances, you can use HTML
+comments to modify HTML::Lint's behavior.
 
-package HTML::Lint::Parser;
+Say you have an image where for whatever reason you can't get
+dimensions for the image.  This HTML snippet:
 
-use HTML::Parser 3.20;
-use HTML::Tagset 3.03;
+    <img src="logo.png" height="120" width="50" alt="Company logo">
+    <img src="that.png">
 
-use HTML::Lint::HTML4 qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
-use HTML::Entities qw( %char2entity );
+causes this error:
 
-use base 'HTML::Parser';
+    foo.html (14:20) <img src="that.png"> tag has no HEIGHT and WIDTH attributes
 
-sub new {
-    my $class = shift;
-    my $gripe = shift;
+But if for some reason you can't get those dimensions when you build
+the page, you can at least stop HTML::Lint complaining about it.
 
-    my $self =
-        HTML::Parser->new(
-            api_version => 3,
-            start_document_h   => [ \&_start_document, 'self' ],
-            end_document_h     => [ \&_end_document,   'self,line,column' ],
-            start_h            => [ \&_start,          'self,tagname,line,column,@attr' ],
-            end_h              => [ \&_end,            'self,tagname,line,column,tokenpos,@attr' ],
-            text_h             => [ \&_text,           'self,text' ],
-            strict_names       => 0,
-            empty_element_tags => 1,
-        );
-    bless $self, $class;
+    <img src="this.png" height="120" width="50" alt="Company logo">
+    <!-- html-lint elem-img-sizes-missing: off, elem-img-alt-missing: off -->
+    <img src="that.png">
+    <!-- html-lint elem-img-sizes-missing: on, elem-img-alt-missing: off -->
 
-    $self->{_gripe} = $gripe;
-    $self->{_stack} = [];
+If you want to turn off all HTML::Lint warnings for a block of code, use
 
-    return $self;
-}
+    <!-- html-lint all: off -->
 
-sub gripe {
-    my $self = shift;
+And turn them back on with
 
-    return $self->{_gripe}->( @_ );
-}
+    <!-- html-lint all: off -->
 
-sub _start_document {
-}
+You don't have to use "on" and "off".  For "on", you can use "true"
+or "1".  For "off", you can use "0" or "false".
 
-sub _end_document {
-    my ($self,$line,$column) = @_;
-
-    for my $tag ( keys %isRequired ) {
-        if ( !$self->{_first_seen}->{$tag} ) {
-            $self->gripe( 'doc-tag-required', tag => $tag );
-        }
-    }
-
-    return;
-}
-
-sub _start {
-    my ($self,$tag,$line,$column,@attr) = @_;
-
-    $self->{_line} = $line;
-    $self->{_column} = $column;
-
-    my $validattr = $isKnownAttribute{ $tag };
-    if ( $validattr ) {
-        my %seen;
-        my $i = 0;
-        while ( $i < @attr ) {
-            my ($attr,$val) = @attr[$i++,$i++];
-            if ( $seen{$attr}++ ) {
-                $self->gripe( 'attr-repeated', tag => $tag, attr => $attr );
-            }
-
-            if ( $validattr && ( !$validattr->{$attr} ) ) {
-                $self->gripe( 'attr-unknown', tag => $tag, attr => $attr );
-            }
-        } # while attribs
-    }
-    else {
-        $self->gripe( 'elem-unknown', tag => $tag );
-    }
-    $self->_element_push( $tag ) unless $HTML::Tagset::emptyElement{ $tag };
-
-    if ( my $where = $self->{_first_seen}{$tag} ) {
-        if ( $isNonrepeatable{$tag} ) {
-            $self->gripe( 'elem-nonrepeatable',
-                            tag => $tag,
-                            where => HTML::Lint::Error::where( @{$where} )
-                        );
-        }
-    }
-    else {
-        $self->{_first_seen}{$tag} = [$line,$column];
-    }
-
-    # Call any other overloaded func
-    my $tagfunc = "_start_$tag";
-    if ( $self->can($tagfunc) ) {
-        $self->$tagfunc( $tag, @attr );
-    }
-
-    return;
-}
-
-sub _text {
-    my ($self,$text) = @_;
-
-    while ( $text =~ /&(?![#0-9a-z])/ig ) {
-        $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
-    }
-
-    while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
-        my $bad = $1;
-        $self->gripe(
-            'text-use-entity',
-                char => sprintf( '\x%02lX', ord($bad) ),
-                entity => $char2entity{ $bad },
-        );
-    }
-
-    if ( not $self->{_unclosed_entities_regex} ) {
-        # Get Gisle's list
-        my @entities = sort keys %HTML::Entities::entity2char;
-
-        # Strip his semicolons
-        s/;$// for @entities;
-
-        # Build a regex
-        my $entities = join( '|', @entities );
-        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
-
-        $self->{_entity_lookup} = { map { ($_,1) } @entities };
-    }
-
-    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
-        my $ent = $1;
-        $self->gripe( 'text-unclosed-entity', entity => "&$ent;" );
-    }
-
-    while ( $text =~ m/&([^;]+);/g ) {
-        my $ent = $1;
-
-        # Numeric entities are fine, if they're not too large.
-        if ( $ent =~ /^#(\d+)$/ ) {
-            if ( $1 > 65536 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
-            }
-            next;
-        }
-
-        # Hex entities are fine, if they're not too large.
-        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
-            if ( length($1) > 4 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
-            }
-            next;
-        }
-
-        # If it's not a numeric entity, then check the lookup table.
-        if ( !exists $self->{_entity_lookup}{$ent} ) {
-            $self->gripe( 'text-unknown-entity', entity => "&$ent;" );
-        }
-    }
-
-    return;
-}
-
-sub _end {
-    my ($self,$tag,$line,$column,$tokenpos,@attr) = @_;
-
-    $self->{_line} = $line;
-    $self->{_column} = $column;
-
-    if ( !$tokenpos ) {
-        # This is a dummy end event for something like <img />.
-        # Do nothing.
-    }
-    elsif ( $HTML::Tagset::emptyElement{ $tag } ) {
-        $self->gripe( 'elem-empty-but-closed', tag => $tag );
-    }
-    else {
-        if ( $self->_in_context($tag) ) {
-            my @leftovers = $self->_element_pop_back_to($tag);
-            for ( @leftovers ) {
-                my ($tag,$line,$col) = @{$_};
-                $self->gripe( 'elem-unclosed', tag => $tag,
-                        where => HTML::Lint::Error::where($line,$col) )
-                        unless $HTML::Tagset::optionalEndTag{$tag};
-            } # for
-        }
-        else {
-            $self->gripe( 'elem-unopened', tag => $tag );
-        }
-    } # is empty element
-
-    # Call any other overloaded func
-    my $tagfunc = "_end_$tag";
-    if ( $self->can($tagfunc) ) {
-        $self->$tagfunc( $tag, $line );
-    }
-
-    return;
-}
-
-sub _element_push {
-    my $self = shift;
-    for ( @_ ) {
-        push( @{$self->{_stack}}, [$_,$self->{_line},$self->{_column}] );
-    } # while
-
-    return;
-}
-
-sub _find_tag_in_stack {
-    my $self = shift;
-    my $tag = shift;
-    my $stack = $self->{_stack};
-
-    my $offset = @{$stack} - 1;
-    while ( $offset >= 0 ) {
-        if ( $stack->[$offset][0] eq $tag ) {
-            return $offset;
-        }
-        --$offset;
-    } # while
-
-    return;
-}
-
-sub _element_pop_back_to {
-    my $self = shift;
-    my $tag = shift;
-
-    my $offset = $self->_find_tag_in_stack($tag) or return;
-
-    my @leftovers = splice( @{$self->{_stack}}, $offset + 1 );
-    pop @{$self->{_stack}};
-
-    return @leftovers;
-}
-
-sub _in_context {
-    my $self = shift;
-    my $tag = shift;
-
-    my $offset = $self->_find_tag_in_stack($tag);
-    return defined $offset;
-}
-
-# Overridden tag-specific stuff
-sub _start_img {
-    my ($self,$tag,%attr) = @_;
-
-    my ($h,$w,$src) = @attr{qw( height width src )};
-    if ( defined $h && defined $w ) {
-        # Check sizes
-    }
-    else {
-        $self->gripe( 'elem-img-sizes-missing', src=>$src );
-    }
-    if ( not defined $attr{alt} ) {
-        $self->gripe( 'elem-img-alt-missing', src=>$src );
-    }
-
-    return;
-}
+For a list of possible errors and their codes, see L<HTML::Lint::Error>,
+or run F<perldoc HTML::Lint::Error>.
 
 =head1 BUGS, WISHES AND CORRESPONDENCE
 
@@ -575,8 +348,8 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
 Copyright 2005-2012 Andy Lester.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the Artistic License v2.0.
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
 
 http://www.opensource.org/licenses/Artistic-2.0
 

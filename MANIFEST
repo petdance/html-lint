@@ -6,6 +6,7 @@ bin/weblint
 lib/HTML/Lint.pm
 lib/HTML/Lint/Error.pm
 lib/HTML/Lint/HTML4.pm
+lib/HTML/Lint/Parser.pm
 lib/Test/HTML/Lint.pm
 t/LintTest.pl
 t/00-load.t
@@ -21,6 +22,8 @@ t/40-where.t
 t/50-multiple-files.t
 t/attr-repeated.t
 t/attr-unknown.t
+t/config-unknown-directive.t
+t/config-unknown-value.t
 t/doc-tag-required.t
 t/elem-empty-but-closed.t
 t/elem-img-alt-missing.t

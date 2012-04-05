@@ -55,9 +55,10 @@ This is usually something like an unknown attribute on a tag.
 
 =cut
 
-use constant STRUCTURE  => 1;
-use constant HELPER     => 2;
-use constant FLUFF      => 3;
+use constant CONFIG     => 1;
+use constant STRUCTURE  => 2;
+use constant HELPER     => 3;
+use constant FLUFF      => 4;
 
 =head2 new()
 
@@ -66,23 +67,23 @@ Create an object.  It's not very exciting.
 =cut
 
 sub new {
-    my $class = shift;
+    my $class    = shift;
 
-    my $file = shift;
-    my $line = shift;
-    my $column = shift;
-    my $errcode = shift;
+    my $file     = shift;
+    my $line     = shift;
+    my $column   = shift;
+    my $errcode  = shift;
     my @errparms = @_;
 
     # Add an element that says what tag caused the error (B, TR, etc)
     # so that we can match 'em up down the road.
     my $self  = {
-        _file => $file,
-        _line => $line,
-        _column => $column,
+        _file    => $file,
+        _line    => $line,
+        _column  => $column,
         _errcode => $errcode,
         _errtext => undef,
-        _type => undef,
+        _type    => undef,
     };
 
     bless $self, $class;
@@ -213,55 +214,129 @@ Type of the error
 
 =cut
 
-sub file        { my $self = shift; return $self->{_file}       || '' }
-sub line        { my $self = shift; return $self->{_line}       || '' }
-sub column      { my $self = shift; return $self->{_column}     || '' }
-sub errcode     { my $self = shift; return $self->{_errcode}    || '' }
-sub errtext     { my $self = shift; return $self->{_errtext}    || '' }
-sub type        { my $self = shift; return $self->{_type}       || '' }
+sub file        { my $self = shift; return $self->{_file}    || '' }
+sub line        { my $self = shift; return $self->{_line}    || '' }
+sub column      { my $self = shift; return $self->{_column}  || '' }
+sub errcode     { my $self = shift; return $self->{_errcode} || '' }
+sub errtext     { my $self = shift; return $self->{_errtext} || '' }
+sub type        { my $self = shift; return $self->{_type}    || '' }
 
 
-=head1 TODO
+=head1 POSSIBLE ERRORS
 
-None, other than incorporating more errors, as driven by HTML::Lint.
+Each possible error in HTML::Lint has a code.  These codes are used
+to identify each error for when you need to turn off error checking
+for a specific error.
 
-=head1 LICENSE
+=cut
 
-This code may be distributed under the same terms as Perl itself.
+%errors = (
+    'config-unknown-directive' => ['Unknown directive "${directive}"', CONFIG],
+    'config-unknown-value'     => ['Unknown value "${value}" for ${directive} directive', CONFIG],
 
-Please note that these modules are not products of or supported by the
-employers of the various contributors to the code.
+    'elem-empty-but-closed'    => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
+    'elem-img-alt-missing'     => ['<img src="${src}"> does not have ALT text defined', HELPER],
+    'elem-img-sizes-missing'   => ['<img src="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
+    'elem-nonrepeatable'       => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
+    'elem-unclosed'            => ['<${tag}> at ${where} is never closed', STRUCTURE],
+    'elem-unknown'             => ['Unknown element <${tag}>', STRUCTURE],
+    'elem-unopened'            => ['</${tag}> with no opening <${tag}>', STRUCTURE],
+
+    'doc-tag-required'         => ['<${tag}> tag is required', STRUCTURE],
+
+    'attr-repeated'            => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
+    'attr-unknown'             => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+
+    'text-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
+    'text-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
+    'text-unknown-entity'      => ['Entity ${entity} is unknown', STRUCTURE],
+    'text-use-entity'          => ['Character "${char}" should be written as ${entity}', STRUCTURE],
+);
+
+=head2 config-unknown-directive
+
+Unknown directive "DIRECTIVE"
+
+You specified a directive in a comment for HTML::Lint that it didn't recognize.
+
+=head2 config-unknown-value
+
+Unknown value "VALUE" for DIRECTIVE directive
+
+Directive values can only be "on", "off", "yes", "no", "true", "false", "0" and "1".
+
+=head2 elem-unknown
+
+Unknown element E<lt>TAGE<gt>
+
+HTML::Lint doesn't know what a TAG tag is.  These are pulled from HTML::Entities
+
+=head2 elem-unopened
+
+E<lt>/TAGE<gt> with no opening E<lt>TAGE<gt>
+
+=head2 elem-unclosed
+
+E<lt>TAGE<gt> at WHERE is never closed
+
+=head2 elem-empty-but-closed
+
+E<lt>TAGE<gt> is not a container -- E<lt>/TAGE<gt> is not allowed
+
+=head2 elem-img-alt-missing
+
+E<lt>img src="FILENAME.PNG"E<gt> does not have ALT text defined
+
+=head2 elem-img-sizes-missing
+
+E<lt>img src="FILENAME.PNG"E<gt> tag has no HEIGHT and WIDTH attributes
+
+=head2 elem-nonrepeatable
+
+E<lt>TAGE<gt> is not repeatable, but already appeared at WHERE
+
+=head2 doc-tag-required
+
+E<lt>TAGE<gt> tag is required
+
+=head2 attr-repeated
+
+ATTR attribute in E<lt>TAGE<gt> is repeated
+
+=head2 attr-unknown
+
+Unknown attribute "ATTR" for tag E<lt>TAGE<gt>
+
+=head2 text-invalid-entity
+
+Entity ENTITY is invalid
+
+=head2 text-unclosed-entity
+
+Entity ENTITY is missing its closing semicolon
+
+=head2 text-unknown-entity
+
+Entity ENTITY is unknown
+
+=head2 text-use-entity
+
+Character "CHAR" should be written as ENTITY
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2005-2012 Andy Lester.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+http://www.opensource.org/licenses/Artistic-2.0
 
 =head1 AUTHOR
 
 Andy Lester, C<andy at petdance.com>
 
 =cut
-
-
-# Errors that are commented out have not yet been implemented.
-
-# Generic element stuff
-%errors = (
-    'elem-unknown'           => ['Unknown element <${tag}>', STRUCTURE],
-    'elem-unopened'          => ['</${tag}> with no opening <${tag}>', STRUCTURE],
-    'elem-unclosed'          => ['<${tag}> at ${where} is never closed', STRUCTURE],
-    'elem-empty-but-closed'  => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
-
-    'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes.', HELPER],
-    'elem-img-alt-missing'   => ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
-    'elem-nonrepeatable'     => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
-
-    'doc-tag-required'       => ['<${tag}> tag is required', STRUCTURE],
-
-    'attr-repeated'          => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
-    'attr-unknown'           => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
-
-    'text-invalid-entity'    => ['Entity ${entity} is invalid', STRUCTURE],
-    'text-unclosed-entity'   => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
-    'text-unknown-entity'    => ['Entity ${entity} is unknown', STRUCTURE],
-    'text-use-entity'        => ['Character "${char}" should be written as ${entity}', STRUCTURE],
-);
 
 1; # happy
 

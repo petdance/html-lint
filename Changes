@@ -6,9 +6,18 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
-
-2.11_01 Thu Mar 29 15:46:59 CDT 2012
+2.12    Thu Apr  5 18:12:10 CDT 2012
     [ENHANCEMENTS]
+
+    Sometimes creating HTML::Lint-compliant HTML just isn't possible.
+    Now, you can now turn individual errors on and off in your HTML
+    via comment directives, like so:
+
+        <!-- html-lint elem-img-sizes-missing: off, attr-unknown: off -->
+
+    And if you have a batch of code that's hopeless:
+
+        <!-- html-lint all: off -->
 
     Added check for unknown entities (&foo;) and unclosed entitities
     (&amp with a semicolon).
