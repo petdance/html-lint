@@ -246,25 +246,27 @@ Andy Lester, C<andy at petdance.com>
 
 # Generic element stuff
 %errors = (
-    'config-unknown-setting' => ['Unknown setting "${setting}"', CONFIG],
-    'elem-unknown'           => ['Unknown element <${tag}>', STRUCTURE],
-    'elem-unopened'          => ['</${tag}> with no opening <${tag}>', STRUCTURE],
-    'elem-unclosed'          => ['<${tag}> at ${where} is never closed', STRUCTURE],
-    'elem-empty-but-closed'  => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
+    'config-unknown-value'     => ['Unknown value "${value}" for ${directive} directive', CONFIG],
+    'config-unknown-directive' => ['Unknown directive "${directive}"', CONFIG],
 
-    'elem-img-sizes-missing' => ['<IMG SRC="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
-    'elem-img-alt-missing'   => ['<IMG SRC="${src}"> does not have ALT text defined', HELPER],
-    'elem-nonrepeatable'     => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
+    'elem-unknown'             => ['Unknown element <${tag}>', STRUCTURE],
+    'elem-unopened'            => ['</${tag}> with no opening <${tag}>', STRUCTURE],
+    'elem-unclosed'            => ['<${tag}> at ${where} is never closed', STRUCTURE],
+    'elem-empty-but-closed'    => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
 
-    'doc-tag-required'       => ['<${tag}> tag is required', STRUCTURE],
+    'elem-img-sizes-missing'   => ['<img src="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
+    'elem-img-alt-missing'     => ['<img src="${src}"> does not have ALT text defined', HELPER],
+    'elem-nonrepeatable'       => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
 
-    'attr-repeated'          => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
-    'attr-unknown'           => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+    'doc-tag-required'         => ['<${tag}> tag is required', STRUCTURE],
 
-    'text-invalid-entity'    => ['Entity ${entity} is invalid', STRUCTURE],
-    'text-unclosed-entity'   => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
-    'text-unknown-entity'    => ['Entity ${entity} is unknown', STRUCTURE],
-    'text-use-entity'        => ['Character "${char}" should be written as ${entity}', STRUCTURE],
+    'attr-repeated'            => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
+    'attr-unknown'             => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+
+    'text-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
+    'text-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
+    'text-unknown-entity'      => ['Entity ${entity} is unknown', STRUCTURE],
+    'text-use-entity'          => ['Character "${char}" should be written as ${entity}', STRUCTURE],
 );
 
 1; # happy

@@ -635,6 +635,9 @@ And turn them back on with
 
     <!-- html-lint all: off -->
 
+You don't have to use "on" and "off".  For "on", you can use "true"
+or "1".  For "off", you can use "0" or "false".
+
 =head1 BUGS, WISHES AND CORRESPONDENCE
 
 All bugs and requests are now being handled through GitHub.
