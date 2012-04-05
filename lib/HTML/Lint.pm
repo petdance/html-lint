@@ -79,7 +79,7 @@ sub new {
     my $self = {
         _errors => [],
         _types  => [],
-        _flags  => {},
+        _directives  => {},
     };
     bless $self, $class;
 
@@ -196,11 +196,11 @@ sub clear_errors {
     return;
 }
 
-=head2 $lint->set_flags( $which, $what )
+=head2 $lint->set_directives( $which, $what )
 
 =cut
 
-sub set_flags {
+sub set_directives {
     my $self  = shift;
     my $which = shift;
     my $what  = shift;
@@ -465,35 +465,33 @@ sub _comment {
         my @commands = split( /\s*,\s*/, $text );
 
         for my $command ( @commands ) {
-            print "command=[$command]\n";
-            my ($which,$what) = split( /\s*:\s*/, $command, 2 );
-            _trim($_) for ($which,$what);
-            print "which,what=[$which][$what]\n";
+            my ($directive,$what) = split( /\s*:\s*/, $command, 2 );
+            _trim($_) for ($directive,$what);
 
-            my ($val,$msg) = _translate_what( $what );
-
-            if ($msg) {
-                $self->gripe( 'config-unknown-setting', setting => $what,
-                        where => HTML::Lint::Error::where($line,$column) );
+            my $value = _normalize_value( $what );
+            if ( !defined($value) ) {
+                $self->gripe( 'config-unknown-value',
+                    directive => $directive,
+                    value     => $what,
+                    where     => HTML::Lint::Error::where($line,$column)
+                );
                 next;
             }
 
-            $self->{_flags}{$which} = $val;
+            $self->{_directives}{$directive} = $value;
         }
     }
 
     return;
 }
 
-sub _translate_what {
+sub _normalize_value {
     my $what = shift;
 
-    print "[$what]\n";
-
     $what = _trim( $what );
-    return (1,undef) if $what =~ /^(?:1|on|true)$/;
-    return (0,undef) if $what =~ /^(?:0|off|false)$/;
-    return (undef,qq{Unknown status "$what"});
+    return 1 if $what =~ /^(?:1|on|true)$/;
+    return 0 if $what =~ /^(?:0|off|false)$/;
+    return undef;
 }
 
 sub _trim {
