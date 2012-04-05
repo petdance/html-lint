@@ -76,12 +76,10 @@ sub gripe {
 }
 
 sub _displayable {
-    my $self = shift;
+    my $self      = shift;
     my $errorcode = shift;
 
     my $directives = $self->{_directives};
-        {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( $directives )}
-
     if ( not defined $directives->{$errorcode} ) {
         return 1;
     }

@@ -14,6 +14,7 @@ checkit( [
 
     [ 'elem-img-sizes-missing' => qr/\Q<img src="epsilon.jpg"> tag has no HEIGHT and WIDTH attributes/i ],
     [ 'elem-img-alt-missing'   => qr/\Q<img src="epsilon.jpg"> does not have ALT text defined/i ],
+    [ 'elem-unclosed'          => 'Set #1 (20:5) <gooble> at (13:9) is never closed' ],
 ], [<DATA>] );
 
 __DATA__
@@ -24,7 +25,7 @@ __DATA__
     <body bgcolor="white">
         <img src="alpha.jpg">
 
-        <!-- html-lint elem-img-sizes-missing: on, attr-unknown: on -->
+        <!-- html-lint elem-img-sizes-missing: off, attr-unknown: off -->
         <img src="beta.jpg" />
 
         <!-- html-lint all: off -->
