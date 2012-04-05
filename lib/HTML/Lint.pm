@@ -77,9 +77,9 @@ sub new {
     my %args = @_;
 
     my $self = {
-        _errors => [],
-        _types  => [],
-        _directives  => {},
+        _errors     => [],
+        _types      => [],
+        _directives => {},
     };
     bless $self, $class;
 
@@ -196,18 +196,6 @@ sub clear_errors {
     return;
 }
 
-=head2 $lint->set_directives( $which, $what )
-
-=cut
-
-sub set_directives {
-    my $self  = shift;
-    my $which = shift;
-    my $what  = shift;
-
-    return;
-}
-
 =head2 $lint->only_types( $type1[, $type2...] )
 
 Specifies to only want errors of a certain type.
@@ -247,17 +235,34 @@ in case, here you go.
 =cut
 
 sub gripe {
-    my $self = shift;
+    my $self      = shift;
+    my $errorcode = shift;
 
     my $error = HTML::Lint::Error->new(
-        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, @_ );
+        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, $errorcode, @_ );
 
     my @keeps = @{$self->{_types}};
     if ( !@keeps || $error->is_type(@keeps) ) {
-        push( @{$self->{_errors}}, $error );
+        push( @{$self->{_errors}}, $error ) if $self->displayable( $errorcode );
     }
 
     return;
+}
+
+
+sub displayable {
+    my $self = shift;
+    my $errorcode = shift;
+
+    my $directives = $self->{_directives};
+        {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( $directives )}
+
+    if ( not defined $directives->{$errorcode} ) {
+        return 1;
+    }
+    else {
+        return $directives->{$errorcode};
+    }
 }
 
 =head2 $lint->newfile( $filename )
@@ -487,12 +492,30 @@ sub _comment {
                 next;
             }
 
-            $self->{_directives}{$directive} = $normalized_value;
+            if ( $directive eq 'all' ) {
+                for my $err ( keys %HTML::Lint::Error::errors ) {
+                    $self->_set_directive( $err, $normalized_value );
+                }
+            }
+            else {
+                $self->_set_directive( $directive, $normalized_value );
+            }
         }
     }
 
     return;
 }
+
+sub _set_directive {
+    my $self  = shift;
+    my $which = shift;
+    my $what  = shift;
+
+    $self->{_directives}{$which} = $what;
+
+    return;
+}
+
 
 sub _normalize_value {
     my $what = shift;
