@@ -465,20 +465,29 @@ sub _comment {
         my @commands = split( /\s*,\s*/, $text );
 
         for my $command ( @commands ) {
-            my ($directive,$what) = split( /\s*:\s*/, $command, 2 );
-            _trim($_) for ($directive,$what);
+            my ($directive,$value) = split( /\s*:\s*/, $command, 2 );
+            _trim($_) for ($directive,$value);
 
-            my $value = _normalize_value( $what );
-            if ( !defined($value) ) {
-                $self->gripe( 'config-unknown-value',
+            if ( ($directive ne 'all') && 
+                ( not exists $HTML::Lint::Error::errors{ $directive } ) ) {
+                $self->gripe( 'config-unknown-directive',
                     directive => $directive,
-                    value     => $what,
                     where     => HTML::Lint::Error::where($line,$column)
                 );
                 next;
             }
 
-            $self->{_directives}{$directive} = $value;
+            my $normalized_value = _normalize_value( $value );
+            if ( !defined($normalized_value) ) {
+                $self->gripe( 'config-unknown-value',
+                    directive => $directive,
+                    value     => $value,
+                    where     => HTML::Lint::Error::where($line,$column)
+                );
+                next;
+            }
+
+            $self->{_directives}{$directive} = $normalized_value;
         }
     }
 

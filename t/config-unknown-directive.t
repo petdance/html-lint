@@ -3,6 +3,7 @@ use strict;
 require 't/LintTest.pl';
 
 checkit( [
+    # [ 'config-unknown-directive' => q{Set #1 (6:5) Unknown directive "bongo"} ],
     [ 'config-unknown-directive' => qr/Unknown directive "bongo"$/ ],
 ], [<DATA>] );
 
@@ -13,5 +14,7 @@ __DATA__
     </head>
     <body bgcolor="white">
         <!-- html-lint bongo: on -->
+        <!-- html-lint all: off -->
+        <!-- html-lint elem-img-sizes-missing: off -->
     </body>
 </html>
