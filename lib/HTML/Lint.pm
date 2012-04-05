@@ -311,6 +311,9 @@ And turn them back on with
 You don't have to use "on" and "off".  For "on", you can use "true"
 or "1".  For "off", you can use "0" or "false".
 
+For a list of possible errors and their codes, see L<HTML::Lint::Error>,
+or run F<perldoc HTML::Lint::Error>.
+
 =head1 BUGS, WISHES AND CORRESPONDENCE
 
 All bugs and requests are now being handled through GitHub.
