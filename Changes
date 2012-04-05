@@ -19,8 +19,10 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
         <!-- html-lint all: off -->
 
-    Added check for unknown entities (&foo;) and unclosed entitities
-    (&amp with a semicolon).
+    Added check for unknown entities, such as "&foo;".
+
+    Added check for unclosed entitities, such as "&amp" without the
+    closing semicolon.
 
     Added a check for a bare ampersand that should be written as &amp;
 
