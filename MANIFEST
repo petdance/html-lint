@@ -30,11 +30,12 @@ t/elem-unclosed.t
 t/elem-unknown.t
 t/elem-unopened.t
 t/embed-extensions.t
-t/pod.t
 t/pod-coverage.t
+t/pod.t
 t/random-nobr.t
 t/strong-id.t
-t/text-use-entity.t
-t/text-unknown-entity.t
+t/text-invalid-entity.t
 t/text-unclosed-entity.t
+t/text-unknown-entity.t
+t/text-use-entity.t
 t/xhtml-html.t
