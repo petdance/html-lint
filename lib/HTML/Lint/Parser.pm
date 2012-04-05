@@ -39,16 +39,37 @@ sub new {
         );
     bless $self, $class;
 
-    $self->{_gripe} = $gripe;
-    $self->{_stack} = [];
+    $self->{_gripe}      = $gripe;
+    $self->{_stack}      = [];
+    $self->{_directives} = {};
 
     return $self;
 }
 
 sub gripe {
-    my $self = shift;
+    my $self      = shift;
+    my $errorcode = shift;
 
-    return $self->{_gripe}->( @_ );
+    if ( $self->_displayable( $errorcode ) ) {
+        $self->{_gripe}->( $errorcode, @_ );
+    }
+
+    return;
+}
+
+sub _displayable {
+    my $self = shift;
+    my $errorcode = shift;
+
+    my $directives = $self->{_directives};
+        {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( $directives )}
+
+    if ( not defined $directives->{$errorcode} ) {
+        return 1;
+    }
+    else {
+        return $directives->{$errorcode};
+    }
 }
 
 sub _start_document {

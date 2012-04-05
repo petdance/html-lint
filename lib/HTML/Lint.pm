@@ -79,9 +79,8 @@ sub new {
     my %args = @_;
 
     my $self = {
-        _errors     => [],
-        _types      => [],
-        _directives => {},
+        _errors => [],
+        _types  => [],
     };
     bless $self, $class;
 
@@ -237,35 +236,19 @@ in case, here you go.
 =cut
 
 sub gripe {
-    my $self      = shift;
-    my $errorcode = shift;
+    my $self = shift;
 
     my $error = HTML::Lint::Error->new(
-        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, $errorcode, @_ );
+        $self->{_file}, $self->parser->{_line}, $self->parser->{_column}, @_ );
 
     my @keeps = @{$self->{_types}};
     if ( !@keeps || $error->is_type(@keeps) ) {
-        push( @{$self->{_errors}}, $error ) if $self->displayable( $errorcode );
+        push( @{$self->{_errors}}, $error );
     }
 
     return;
 }
 
-
-sub displayable {
-    my $self = shift;
-    my $errorcode = shift;
-
-    my $directives = $self->{_directives};
-        {use Data::Dumper; local $Data::Dumper::Sortkeys=1; print Dumper( $directives )}
-
-    if ( not defined $directives->{$errorcode} ) {
-        return 1;
-    }
-    else {
-        return $directives->{$errorcode};
-    }
-}
 
 =head2 $lint->newfile( $filename )
 
