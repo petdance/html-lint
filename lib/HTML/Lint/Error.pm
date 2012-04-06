@@ -114,6 +114,8 @@ sub _expand_error {
     }
 
     $self->{_errtext} = $str;
+
+    return;
 }
 
 =head2 is_type( $type1 [, $type2 ] )

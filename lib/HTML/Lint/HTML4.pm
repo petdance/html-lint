@@ -248,7 +248,7 @@ __END__
 
 =head1 NAME
 
-HTML::Lint::HTML4.pm -- Rules for HTML 4 as used by HTML::Lint.
+HTML::Lint::HTML4 -- Rules for HTML 4 as used by HTML::Lint.
 
 =head1 SYNOPSIS
 
