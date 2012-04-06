@@ -59,7 +59,7 @@ for my $url ( @ARGV ) {
     else {
         open( my $fh, '<', $url ) or die "Can't open $url: $!";
         @lines = <$fh>;
-        close $fh;
+        close $fh or die $!;
     }
     $lint->parse( $_ ) for @lines;
     $lint->eof();

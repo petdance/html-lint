@@ -1,4 +1,5 @@
 use strict;
+use warnings;
 use ExtUtils::MakeMaker qw( WriteMakefile );
 use 5.006001;
 
@@ -36,7 +37,7 @@ my %parms = (
     clean => { FILES => 'HTML-Lint-*' },
 );
 
-if ( $ExtUtils::MakeMaker::VERSION =~ /^\d\.\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
+if ( $ExtUtils::MakeMaker::VERSION =~ /^\d[.]\d\d$/ and $ExtUtils::MakeMaker::VERSION > 6.30 ) {
     $parms{LICENSE} = 'artistic_2';
 }
 
