@@ -27,8 +27,7 @@ Constructor for the main parsing object.  The I<$gripe> argument
 is a coderef to a function that can handle errors from the parser.
 It is only ever (so far) C<HTML::Lint::gripe()>.
 
-=cut=
-
+=cut
 
 sub new {
     my $class = shift;
@@ -89,6 +88,7 @@ sub _displayable {
 }
 
 sub _start_document {
+    return;
 }
 
 sub _end_document {
