@@ -15,6 +15,14 @@ use base 'HTML::Parser';
 
 HTML::Lint::Parser - Parser for HTML::Lint.  No user-serviceable parts inside.
 
+=head1 VERSION
+
+Version 2.12
+
+=cut
+
+our $VERSION = '2.12';
+
 =head1 SYNOPSIS
 
 See L<HTML::Lint> for all the gory details.
