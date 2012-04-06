@@ -4,11 +4,11 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
     https://github.com/petdance/html-lint/issues
 
-DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
+Please DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
-2.12    Thu Apr  5 18:12:10 CDT 2012
+
+2.20    Fri Apr  6 00:49:51 CDT 2012
     [ENHANCEMENTS]
-
     Sometimes creating HTML::Lint-compliant HTML just isn't possible.
     Now, you can now turn individual errors on and off in your HTML
     via comment directives, like so:
