@@ -234,7 +234,7 @@ sub _comment {
             my ($directive,$value) = split( /\s*:\s*/, $command, 2 );
             _trim($_) for ($directive,$value);
 
-            if ( ($directive ne 'all') && 
+            if ( ($directive ne 'all') &&
                 ( not exists $HTML::Lint::Error::errors{ $directive } ) ) {
                 $self->gripe( 'config-unknown-directive',
                     directive => $directive,
