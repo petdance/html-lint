@@ -161,6 +161,12 @@ sub _start {
 sub _text {
     my ($self,$text) = @_;
 
+    $self->_entity($text, 'text');
+}
+
+sub _entity {
+    my ($self,$text,$type) = @_;
+
     if ( not $self->{_entity_lookup} ) {
         my @entities = sort keys %HTML::Entities::entity2char;
         # Strip his semicolons
@@ -171,7 +177,7 @@ sub _text {
     while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
         my $bad = $1;
         $self->gripe(
-            'text-use-entity',
+            $type . '-use-entity',
                 char => sprintf( '\x%02lX', ord($bad) ),
                 entity => $char2entity{ $bad } || '&#' . ord($bad) . ';',
         );
@@ -181,26 +187,26 @@ sub _text {
         my $match = $1;
 
         if ( $match eq '' ) {
-            $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
+            $self->gripe( $type . '-use-entity', char => '&', entity => '&amp;' );
         } elsif ( $match !~ m/;$/ ) {
             if ( exists $self->{_entity_lookup}->{$match}
                  || $match =~ m/^#(\d+)$/ || $match =~ m/^#x[\dA-F]+$/i) {
-                $self->gripe( 'text-unclosed-entity', entity => "&$match;" );
+                $self->gripe( $type . '-unclosed-entity', entity => "&$match;" );
             } else {
-                $self->gripe( 'text-unknown-entity', entity => "&$match" );
+                $self->gripe( $type . '-unknown-entity', entity => "&$match" );
             }
         } elsif ( $match =~ m/^#(\d+);$/ ) {
             if ( $1 > 65536 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$match" );
+                $self->gripe( $type . '-invalid-entity', entity => "&$match" );
             }
         } elsif ( $match =~ m/^#x([\dA-F]+);$/i ) {
             if ( length($1) > 4 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$match" );
+                $self->gripe( $type . '-invalid-entity', entity => "&$match" );
             }
         } else {
             $match =~ s/;$//;
             unless ( exists $self->{_entity_lookup}->{$match} ) {
-                $self->gripe( 'text-unknown-entity', entity => "&$match;" );
+                $self->gripe( $type . '-unknown-entity', entity => "&$match;" );
             }
         }
     }
