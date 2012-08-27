@@ -34,7 +34,7 @@ __DATA__
         Who wants a peanut butter & jelly?  Mot&ouml rhead does!  They love rock &
         roll!
         <p>
-        Here's an awesome link to <a href="http://www.youtube.com/watch?v=8yLhA0ROGi4&feature=related">"You Better Swim"</a> from the SpongeBob movie.
+        Here's an awesome link to <a href="http://www.youtube.com/watch?v=8yLhA0ROGi4&amp;feature=related">"You Better Swim"</a> from the SpongeBob movie.
         <p>
         <!--
         Here in the safety of comments, we can put whatever &invalid; and &malformed entities we want, &
