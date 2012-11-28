@@ -170,7 +170,7 @@ sub _text {
         $self->gripe(
             'text-use-entity',
                 char => sprintf( '\x%02lX', ord($bad) ),
-                entity => $char2entity{ $bad },
+                entity => $char2entity{ $bad } || '&#' . ord($bad) . ';',
         );
     }
 
