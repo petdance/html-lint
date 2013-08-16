@@ -47,7 +47,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             homepage   => 'http://search.cpan.org/dist/html-lint',
             bugtracker => 'https://github.com/petdance/html-lint/issues',
             license    => 'http://www.opensource.org/licenses/artistic-license-2.0.php',
-            Repository => 'https://github.com/petdance/html-lint',
+            repository => 'https://github.com/petdance/html-lint',
         }
     };
 }
