@@ -87,7 +87,7 @@ will clear its errors before using it.
 sub html_ok {
     my $lint;
 
-    if ( ref($_[0]) eq 'HTML::Lint' ) {
+    if ( ref($_[0]) && $_[0]->isa('HTML::Lint') ) {
         $lint = shift;
         $lint->newfile();
         $lint->clear_errors();
