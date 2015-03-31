@@ -6,6 +6,12 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+2.21_01
+    [ENHANCEMENTS]
+    Added new error, elem-input-alt-missing, that warns of <input
+    type="image"> tags that are missing an alt="" attribute.  This helps
+    for accessability to make sure that any images have alternate text
+    for screen readers.
 
 2.20    Fri Apr  6 00:49:51 CDT 2012
     [ENHANCEMENTS]
