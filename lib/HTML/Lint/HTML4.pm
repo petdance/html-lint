@@ -152,9 +152,14 @@ Andy Lester C<andy at petdance.com>
 
 =head1 COPYRIGHT
 
-Copyright (c) Andy Lester 2005. All Rights Reserved.
+Copyright 2005-2015 Andy Lester.
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+http://www.opensource.org/licenses/Artistic-2.0
+
+Please note that these modules are not products of or supported by the
+employers of the various contributors to the code.
 
 =cut
