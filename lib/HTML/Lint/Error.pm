@@ -270,45 +270,43 @@ Directive values can only be "on", "off", "yes", "no", "true", "false", "0" and 
 
 =head2 elem-unknown
 
-Unknown element E<lt>TAGE<gt>
-
-HTML::Lint doesn't know what a TAG tag is.  These are pulled from HTML::Entities
+HTML::Lint doesn't know recognize the tag.
 
 =head2 elem-unopened
 
-E<lt>/TAGE<gt> with no opening E<lt>TAGE<gt>
+C<< </tag> >> with no opening C<< <tag> >>.
 
 =head2 elem-unclosed
 
-E<lt>TAGE<gt> at WHERE is never closed
+C<< <tag> >> at WHERE is never closed.
 
 =head2 elem-empty-but-closed
 
-E<lt>TAGE<gt> is not a container -- E<lt>/TAGE<gt> is not allowed
+C<< <tag> >> is not a container -- C<< </tag> >> is not allowed.
 
 =head2 elem-img-alt-missing
 
-E<lt>img src="FILENAME.PNG"E<gt> does not have ALT text defined
+C<< <img src="FILENAME.PNG"> >> does not have ALT text defined.
 
 =head2 elem-img-sizes-missing
 
-E<lt>img src="FILENAME.PNG"E<gt> tag has no HEIGHT and WIDTH attributes
+C<< <img src="FILENAME.PNG"> >> tag has no HEIGHT and WIDTH attributes.
 
 =head2 elem-nonrepeatable
 
-E<lt>TAGE<gt> is not repeatable, but already appeared at WHERE
+C<< <tag> >> is not repeatable, but already appeared at WHERE.
 
 =head2 doc-tag-required
 
-E<lt>TAGE<gt> tag is required
+C<< <tag> >> tag is required.
 
 =head2 attr-repeated
 
-ATTR attribute in E<lt>TAGE<gt> is repeated
+ATTR attribute in C<< <tag> >> is repeated.
 
 =head2 attr-unknown
 
-Unknown attribute "ATTR" for tag E<lt>TAGE<gt>
+Unknown attribute "ATTR" for tag C<< <tag> >>.
 
 =head2 text-invalid-entity
 
