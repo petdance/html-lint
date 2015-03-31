@@ -400,7 +400,9 @@ sub _start_input {
     my ($type,$alt) = @attr{qw( type alt )};
     if ( lc($type) eq 'image' ) {
         if ( not defined $alt ) {
-            $self->gripe( 'elem-input-alt-missing' );
+            my $name = $attr{name};
+            $name = '' unless defined $name;
+            $self->gripe( 'elem-input-alt-missing', name => $name );
         }
     }
 
