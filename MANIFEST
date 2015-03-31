@@ -28,6 +28,7 @@ t/doc-tag-required.t
 t/elem-empty-but-closed.t
 t/elem-img-alt-missing.t
 t/elem-img-sizes-missing.t
+t/elem-input-alt-missing.t
 t/elem-nonrepeatable.t
 t/elem-unclosed.t
 t/elem-unknown.t
