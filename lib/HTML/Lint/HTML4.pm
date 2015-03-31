@@ -22,8 +22,8 @@ our %isNonrepeatable = %{_hash( qw( html head base title body isindex ))};
 our %isObsolete     = %{_hash( qw( listing plaintext xmp ) )};
 
 # Some day I might do something with these.  For now, they're just comments.
-sub _ie_only { return @_ };
-sub _ns_only { return @_ };
+sub _ie_only { return @_ }
+sub _ns_only { return @_ }
 
 our %isKnownAttribute = (
     # All the physical markup has the same
