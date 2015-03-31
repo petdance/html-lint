@@ -3,7 +3,7 @@ use strict;
 require 't/LintTest.pl';
 
 checkit( [
-    [ 'elem-img-alt-missing' => qr/<input type="image"> does not have ALT text defined/i ],
+    [ 'elem-input-alt-missing' => qr/<input type="image"> does not have ALT text defined/i ],
 ], [<DATA>] );
 
 __DATA__

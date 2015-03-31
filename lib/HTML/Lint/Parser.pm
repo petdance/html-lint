@@ -394,4 +394,17 @@ sub _start_img {
     return;
 }
 
+sub _start_input {
+    my ($self,$tag,%attr) = @_;
+
+    my ($type,$alt) = @attr{qw( type alt )};
+    if ( lc($type) eq 'image' ) {
+        if ( not defined $alt ) {
+            $self->gripe( 'elem-input-alt-missing' );
+        }
+    }
+
+    return;
+}
+
 1;
