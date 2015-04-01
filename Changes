@@ -13,6 +13,10 @@ Please DO NOT send bug reports to http://rt.cpan.org/.
     for accessability to make sure that any images have alternate text
     for screen readers.
 
+    [FIXES]
+    Test::HTML::Lint::html_ok() would not call the HTML::Lint eof()
+    method, which allowed some invalid HTML to get by.
+
 2.20    Fri Apr  6 00:49:51 CDT 2012
     [ENHANCEMENTS]
     Sometimes creating HTML::Lint-compliant HTML just isn't possible.
