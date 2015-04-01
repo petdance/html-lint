@@ -239,7 +239,7 @@ for a specific error.
     'elem-empty-but-closed'    => ['<${tag}> is not a container -- </${tag}> is not allowed', STRUCTURE],
     'elem-img-alt-missing'     => ['<img src="${src}"> does not have ALT text defined', HELPER],
     'elem-img-sizes-missing'   => ['<img src="${src}"> tag has no HEIGHT and WIDTH attributes', HELPER],
-    'elem-input-alt-missing'   => ['<input name="${name}" type="image"> does not have ALT text defined', HELPER],
+    'elem-input-alt-missing'   => ['<input name="${name}" type="image"> does not have non-blank ALT text defined', HELPER],
     'elem-nonrepeatable'       => ['<${tag}> is not repeatable, but already appeared at ${where}', STRUCTURE],
     'elem-unclosed'            => ['<${tag}> at ${where} is never closed', STRUCTURE],
     'elem-unknown'             => ['Unknown element <${tag}>', STRUCTURE],
