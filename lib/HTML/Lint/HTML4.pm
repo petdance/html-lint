@@ -6,7 +6,7 @@ use strict;
 use base 'Exporter';
 our @EXPORT_OK = qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 
-sub _hash   { my %hash; @hash{@_} = (1) x scalar @_; return \%hash; }
+sub _hash   { return { map { ($_ => 1) } @_ } }
 
 our @physical   = qw( b big code i kbd s small strike sub sup tt u xmp );
 our @content    = qw( abbr acronym cite code dfn em kbd samp strong var );
