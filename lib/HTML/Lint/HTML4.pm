@@ -3,6 +3,27 @@ package HTML::Lint::HTML4;
 use warnings;
 use strict;
 
+=head1 NAME
+
+HTML::Lint::HTML4 -- Rules for HTML 4 as used by HTML::Lint.
+
+=head1 SYNOPSIS
+
+Collection of tags and attributes for use by HTML::Lint.  You can add
+your own tags and attributes if you like.
+
+    # Add an attribute that your company uses.
+    HTML::Lint::HTML4::add_attribute( 'body', 'proprietary-attribute' );
+
+    # Add the HTML 5 <canvas> tag.
+    HTML::Lint::HTML4::add_tag( 'canvas' );
+    HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
+This must be done before HTML::Lint does any validation.  Note also that
+this modifies a global table, and is not on a per-object basis.
+
+=cut
+
 use base 'Exporter';
 our @EXPORT_OK = qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 
@@ -126,25 +147,57 @@ our %isKnownAttribute = (
     ul          => _hash( @std, qw( compact type ) ),
 );
 
+
+=head1 FUNCTIONS
+
+The functions below are very specifically not exported, and need to be
+called with a complete package reference, so as to remind the programmer
+that she is monkeying with the entire package.
+
+=head2 add_tag( $tag );
+
+Adds a tag to the list of tags that HTML::Lint knows about.  If you
+specify a tag that HTML::Lint already knows about, then nothing is
+changed.
+
+    HTML::Lint::HTML4::add_tag( 'canvas' );
+
+=cut
+
+sub add_tag {
+    my $tag = shift;
+
+    if ( !$isKnownAttribute{ $tag } ) {
+        $isKnownAttribute{ $tag } = {};
+    }
+
+    return;
+}
+
+
+=head2 add_attribute( $tag, $attribute );
+
+Adds an attribute to a tag that HTML::Lint knows about.  The tag must
+already be known to HTML::Lint or else this function will die.
+
+    HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
+=cut
+
+sub add_attribute {
+    my $tag  = shift;
+    my $attr = shift;
+
+    my $attrs = $isKnownAttribute{ $tag } || die "Tag $tag is unknown";
+
+    $isKnownAttribute{ $tag }->{ $attr } = 1;
+
+    return;
+}
+
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::Lint::HTML4 -- Rules for HTML 4 as used by HTML::Lint.
-
-=head1 SYNOPSIS
-
-No user serviceable parts inside.  Used by HTML::Lint.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item HTML::Lint
-
-=back
 
 =head1 AUTHOR
 

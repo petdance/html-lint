@@ -13,6 +13,16 @@ Please DO NOT send bug reports to http://rt.cpan.org/.
     for accessability to make sure that any images have alternate text
     for screen readers.
 
+    Added ability to modify HTML::Lint's table of known tags and
+    attributes, so you could do this:
+
+        # Add an attribute that your company uses.
+        HTML::Lint::HTML4::add_attribute( 'body', 'proprietary-attribute' );
+
+        # Add the HTML 5 <canvas> tag.
+        HTML::Lint::HTML4::add_tag( 'canvas' );
+        HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
     [FIXES]
     Test::HTML::Lint::html_ok() would not call the HTML::Lint eof()
     method, which allowed some invalid HTML to get by.

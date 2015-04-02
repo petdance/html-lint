@@ -20,6 +20,7 @@ t/20-error-types.t
 t/30-test-builder.t
 t/40-where.t
 t/50-multiple-files.t
+t/60-add-tags.t
 t/attr-repeated.t
 t/attr-unknown.t
 t/config-unknown-directive.t
