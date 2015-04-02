@@ -127,7 +127,7 @@ sub _start {
                 $self->gripe( 'attr-repeated', tag => $tag, attr => $attr );
             }
 
-            if ( $validattr && ( !$validattr->{$attr} ) ) {
+            if ( !$validattr->{$attr} ) {
                 $self->gripe( 'attr-unknown', tag => $tag, attr => $attr );
             }
         } # while attribs
