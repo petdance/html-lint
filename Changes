@@ -7,6 +7,13 @@ NOTE: All bugs and requests are now being handled through GitHub.
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
 2.21_01
+    [CHANGES THAT COULD BREAK YOUR CODE]
+    Previously, html_ok() would not check the entire structure of a web
+    page to check for <html>, <head>, <title> and <body> tags.  Now it
+    will.  If you want to check fragments of HTML for validity but know
+    that they are not valid HTML documents on their own, use the new
+    html_fragment_ok().
+
     [ENHANCEMENTS]
     Added new error, elem-input-alt-missing, that warns of <input
     type="image"> tags that are missing an alt="" attribute.  This helps

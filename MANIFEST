@@ -14,6 +14,7 @@ t/01-coverage.t
 t/02-versions.t
 t/10-test-html-lint.t
 t/11-test-html-lint-overload.t
+t/12-html_fragment_ok.t
 t/20-error-types-export.t
 t/20-error-types-skip.t
 t/20-error-types.t
