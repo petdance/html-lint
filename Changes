@@ -6,7 +6,7 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
-2.21_01
+2.22    Mon Apr  6 15:47:11 CDT 2015
     [CHANGES THAT COULD BREAK YOUR CODE]
     Previously, html_ok() would not check the entire structure of a web
     page to check for <html>, <head>, <title> and <body> tags.  Now it
@@ -32,7 +32,7 @@ Please DO NOT send bug reports to http://rt.cpan.org/.
 
     [FIXES]
     Test::HTML::Lint::html_ok() would not call the HTML::Lint eof()
-    method, which allowed some invalid HTML to get by.
+    method, which meant it wouldn't do document-wide tests.
 
 2.20    Fri Apr  6 00:49:51 CDT 2012
     [ENHANCEMENTS]
