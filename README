@@ -1,15 +1,12 @@
 HTML::Lint is a pure-Perl HTML parser and checker for syntactic legitmacy.
+It supports only HTML 4.
 
-The "weblint" script is now pretty much a wrapper around the HTML::Lint
-module.
+The "weblint" program that comes with HTML::Lint lets you lint a webpage
+or local files.
 
-You can also look into Apache::Lint which is a mod_perl wrapper around
-HTML::Lint.
-
-Finally, for those of you doing automated testing with Test::More and
-its brethren, Test::HTML::Lint lets you automate HTML checking.
-
-Please let me know if any tests fail.
+For those of you doing automated testing with Test::More and the rest
+of the Perl testing framework, Test::HTML::Lint lets you automate HTML
+checking.
 
 Andy Lester
 andy at petdance.com

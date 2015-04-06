@@ -8,6 +8,6 @@ use strict;
 
 use Test::HTML::Lint tests=>1;
 
-my $chunk = "<P>This is a fine chunk of code</P>";
+my $chunk = '<html><head></head><body><title>A fine chunk of code</title></body></html>';
 
 html_ok( $chunk );

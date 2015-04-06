@@ -4,8 +4,35 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
     https://github.com/petdance/html-lint/issues
 
-Please DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
+Please DO NOT send bug reports to http://rt.cpan.org/.
 
+2.22    Mon Apr  6 15:47:11 CDT 2015
+    [CHANGES THAT COULD BREAK YOUR CODE]
+    Previously, html_ok() would not check the entire structure of a web
+    page to check for <html>, <head>, <title> and <body> tags.  Now it
+    will.  If you want to check fragments of HTML for validity but know
+    that they are not valid HTML documents on their own, use the new
+    html_fragment_ok().
+
+    [ENHANCEMENTS]
+    Added new error, elem-input-alt-missing, that warns of <input
+    type="image"> tags that are missing an alt="" attribute.  This helps
+    for accessability to make sure that any images have alternate text
+    for screen readers.
+
+    Added ability to modify HTML::Lint's table of known tags and
+    attributes, so you could do this:
+
+        # Add an attribute that your company uses.
+        HTML::Lint::HTML4::add_attribute( 'body', 'proprietary-attribute' );
+
+        # Add the HTML 5 <canvas> tag.
+        HTML::Lint::HTML4::add_tag( 'canvas' );
+        HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
+    [FIXES]
+    Test::HTML::Lint::html_ok() would not call the HTML::Lint eof()
+    method, which meant it wouldn't do document-wide tests.
 
 2.20    Fri Apr  6 00:49:51 CDT 2012
     [ENHANCEMENTS]

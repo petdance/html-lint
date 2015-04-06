@@ -18,11 +18,11 @@ Test::HTML::Lint - Test::More-style wrapper around HTML::Lint
 
 =head1 VERSION
 
-Version 2.20
+Version 2.22
 
 =cut
 
-$VERSION = '2.20';
+$VERSION = '2.22';
 
 my $Tester = Test::Builder->new;
 
@@ -48,7 +48,10 @@ C<html_ok>
 
 =cut
 
-@EXPORT = qw( html_ok );
+@EXPORT = qw(
+    html_ok
+    html_fragment_ok
+);
 
 sub import {
     my $self = shift;
@@ -64,10 +67,12 @@ sub import {
 
 =head2 html_ok( [$lint, ] $html, $name )
 
-Checks to see that C<$html> contains valid HTML. 
+Checks to see if C<$html> is a valid HTML document, including checks
+for having C<< <html> >>, C<< <head> >>, C<< <title>> >> and
+C<< <body> >> tags.
 
-Checks to see if C<$html> contains valid HTML.  C<$html> being blank is OK.
-C<$html> being undef is not.
+If you're checking something that is only a fragment of an HTML document,
+use C<html_fragment_ok()>.
 
 If you pass an HTML::Lint object, C<html_ok()> will use that for its
 settings.
@@ -104,6 +109,7 @@ sub html_ok {
     }
     else {
         $lint->parse( $html );
+        $lint->eof();
         my $nerr = scalar $lint->errors;
         $ok = !$nerr;
         $Tester->ok( $ok, $name );
@@ -117,6 +123,71 @@ sub html_ok {
 
     return $ok;
 }
+
+
+=head2 html_fragment_ok( [$lint, ] $html, $name )
+
+Checks that C<$fragment> is valid HTML, but not necessarily a valid
+HTML document.
+
+For example, this is a valid fragment, but not a valid HTML document:
+
+    <body>
+        <p>Lorem ipsum</p>
+    </body>
+
+because it doesn't contain C<< <html> >> and C<< <head> >> tags.  If you
+want to check that it is a valid document, use C<html_ok()>.
+
+If you pass an HTML::Lint object, C<html_fragment_ok()> will use that for its
+settings.
+
+    my $lint = new HTML::Lint( only_types => STRUCTURE );
+    html_fragment_ok( $lint, $content, 'Web page passes structural tests only' );
+
+Otherwise, it will use the default rules.
+
+    html_fragment_ok( $content, 'Fragment passes ALL tests' );
+
+Note that if you pass in your own HTML::Lint object, C<html_fragment_ok()>
+will clear its errors before using it.
+
+=cut
+
+sub html_fragment_ok {
+    my $lint;
+
+    if ( ref($_[0]) eq 'HTML::Lint' ) {
+        $lint = shift;
+        $lint->newfile();
+        $lint->clear_errors();
+    }
+    else {
+        $lint = HTML::Lint->new;
+    }
+    my $html = shift;
+    my $name = shift;
+
+    my $ok = defined $html;
+    if ( !$ok ) {
+        $Tester->ok( 0, $name );
+    }
+    else {
+        $lint->parse( $html );
+        my $nerr = scalar $lint->errors;
+        $ok = !$nerr;
+        $Tester->ok( $ok, $name );
+        if ( !$ok ) {
+            my $msg = 'Errors:';
+            $msg .= " $name" if $name;
+            $Tester->diag( $msg );
+            $Tester->diag( $_->as_string ) for $lint->errors;
+        }
+    }
+
+    return $ok;
+}
+
 
 =head1 BUGS
 
@@ -146,7 +217,7 @@ this module is taken.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2012 Andy Lester.
+Copyright 2005-2015 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License v2.0.
@@ -155,7 +226,6 @@ http://www.opensource.org/licenses/Artistic-2.0
 
 Please note that these modules are not products of or supported by the
 employers of the various contributors to the code.
-
 
 =head1 AUTHOR
 

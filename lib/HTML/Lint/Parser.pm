@@ -17,11 +17,11 @@ HTML::Lint::Parser - Parser for HTML::Lint.  No user-serviceable parts inside.
 
 =head1 VERSION
 
-Version 2.20
+Version 2.22
 
 =cut
 
-our $VERSION = '2.20';
+our $VERSION = '2.22';
 
 =head1 SYNOPSIS
 
@@ -127,7 +127,7 @@ sub _start {
                 $self->gripe( 'attr-repeated', tag => $tag, attr => $attr );
             }
 
-            if ( $validattr && ( !$validattr->{$attr} ) ) {
+            if ( !$validattr->{$attr} ) {
                 $self->gripe( 'attr-unknown', tag => $tag, attr => $attr );
             }
         } # while attribs
@@ -389,6 +389,27 @@ sub _start_img {
     }
     if ( not defined $attr{alt} ) {
         $self->gripe( 'elem-img-alt-missing', src=>$src );
+    }
+
+    return;
+}
+
+sub _start_input {
+    my ($self,$tag,%attr) = @_;
+
+    my ($type,$alt) = @attr{qw( type alt )};
+    if ( lc($type) eq 'image' ) {
+        my $ok = defined($alt);
+        if ( $ok ) {
+            $alt =~ s/^ +//;
+            $alt =~ s/ +$//;
+            $ok = ($alt ne '');
+        }
+        if ( !$ok ) {
+            my $name = $attr{name};
+            $name = '' unless defined $name;
+            $self->gripe( 'elem-input-alt-missing', name => $name );
+        }
     }
 
     return;

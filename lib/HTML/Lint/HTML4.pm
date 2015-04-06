@@ -3,10 +3,31 @@ package HTML::Lint::HTML4;
 use warnings;
 use strict;
 
+=head1 NAME
+
+HTML::Lint::HTML4 -- Rules for HTML 4 as used by HTML::Lint.
+
+=head1 SYNOPSIS
+
+Collection of tags and attributes for use by HTML::Lint.  You can add
+your own tags and attributes if you like.
+
+    # Add an attribute that your company uses.
+    HTML::Lint::HTML4::add_attribute( 'body', 'proprietary-attribute' );
+
+    # Add the HTML 5 <canvas> tag.
+    HTML::Lint::HTML4::add_tag( 'canvas' );
+    HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
+This must be done before HTML::Lint does any validation.  Note also that
+this modifies a global table, and is not on a per-object basis.
+
+=cut
+
 use base 'Exporter';
 our @EXPORT_OK = qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 
-sub _hash   { my %hash; @hash{@_} = (1) x scalar @_; return \%hash; }
+sub _hash   { return { map { ($_ => 1) } @_ } }
 
 our @physical   = qw( b big code i kbd s small strike sub sup tt u xmp );
 our @content    = qw( abbr acronym cite code dfn em kbd samp strong var );
@@ -22,8 +43,8 @@ our %isNonrepeatable = %{_hash( qw( html head base title body isindex ))};
 our %isObsolete     = %{_hash( qw( listing plaintext xmp ) )};
 
 # Some day I might do something with these.  For now, they're just comments.
-sub _ie_only { return @_ };
-sub _ns_only { return @_ };
+sub _ie_only { return @_ }
+sub _ns_only { return @_ }
 
 our %isKnownAttribute = (
     # All the physical markup has the same
@@ -126,141 +147,57 @@ our %isKnownAttribute = (
     ul          => _hash( @std, qw( compact type ) ),
 );
 
-=for oldobsoletestuffthatIwanttokeep
-my %booger = (
-    'maybePaired'  => 'LI DT DD P TD TH TR OPTION COLGROUP THEAD TFOOT TBODY COL',
 
-        'expectArgsRE' => 'A|FONT',
+=head1 FUNCTIONS
 
-        'headTagsRE' => 'TITLE|NEXTID|LINK|BASE|META',
+The functions below are very specifically not exported, and need to be
+called with a complete package reference, so as to remind the programmer
+that she is monkeying with the entire package.
 
-        'requiredContext' =>
-        {
-        'AREA'     => 'MAP',
-        'CAPTION'  => 'TABLE',
-        'DD'       => 'DL',
-        'DT'       => 'DL',
-        'FIELDSET' => 'FORM',
-        'FRAME'    => 'FRAMESET',
-        'INPUT'    => 'FORM',
-        'LABEL'    => 'FORM',
-        'LEGEND'   => 'FIELDSET',
-        'LI'       => 'DIR|MENU|OL|UL',
-        'NOFRAMES' => 'FRAMESET',
-        'OPTGROUP' => 'SELECT',
-        'OPTION'   => 'SELECT',
-        'SELECT'   => 'FORM',
-        'TD'       => 'TR',
-        'TEXTAREA' => 'FORM',
-        'TH'       => 'TR',
-        'TR'       => 'TABLE',
-        'PARAM'    => 'APPLET|OBJECT',
-        },
+=head2 add_tag( $tag );
 
-        'okInHead' =>
-                {
-                        'ISINDEX' => 1,
-                        'TITLE'   => 1,
-                        'NEXTID'  => 1,
-                        'LINK'    => 1,
-                        'BASE'    => 1,
-                        'META'    => 1,
-                        'RANGE'   => 1,
-                        'STYLE'   => 1,
-                        'OBJECT'  => 1,
-                        '!--'     => 1,
-                },
+Adds a tag to the list of tags that HTML::Lint knows about.  If you
+specify a tag that HTML::Lint already knows about, then nothing is
+changed.
 
+    HTML::Lint::HTML4::add_tag( 'canvas' );
 
-        ## elements which cannot be nested
-        'nonNest' => 'A|FORM',
-
-        'requiredAttributes' =>
-        {
-        APPLET  => 'WIDTH|HEIGHT',
-        AREA            => 'ALT',
-        BASE            => 'HREF',
-        BASEFONT        => 'SIZE',
-        BDO             => 'DIR',
-        FORM            => 'ACTION',
-        IMG             => 'SRC|ALT',
-        LINK            => 'HREF',
-        MAP             => 'NAME',
-        NEXTID  => 'N',
-        SELECT  => 'NAME',
-        TEXTAREA        => 'NAME|ROWS|COLS'
-        },
-
-        'attributeFormat' =>
-        {
-                'ALIGN',         'BOTTOM|MIDDLE|TOP|LEFT|CENTER|RIGHT|JUSTIFY|'.
-                                'BLEEDLEFT|BLEEDRIGHT|DECIMAL',
-                'ALINK'          => 'color',
-                'BGCOLOR'          => 'color',
-                'CLEAR',        'LEFT|RIGHT|ALL|NONE',
-                'COLOR'          => 'color',
-                'COLS',          '\d+|(\d*[*%]?,)*\s*\d*[*%]?',
-                'COLSPAN',         '\d+',
-                'DIR'           => 'LTR|RTL',
-                'HEIGHT',          '\d+',
-                'INDENT',          '\d+',
-                'LINK'          => 'color',
-                'MAXLENGTH',   '\d+',
-                'METHOD',          'GET|POST',
-                'ROWS',            '\d+|(\d*[*%]?,)*\s*\d*[*%]?',
-                'ROWSPAN',         '\d+',
-                'SEQNUM',          '\d+',
-                'SIZE',            '[-+]?\d+|\d+,\d+',
-                'SKIP',            '\d+',
-                'TYPE',            'CHECKBOX|HIDDEN|IMAGE|PASSWORD|RADIO|RESET|'.
-                                'SUBMIT|TEXT|[AaIi1]|disc|square|circle|'.
-                                'FILE|.*',
-                'UNITS',         'PIXELS|EN',
-                'VALIGN',        'TOP|MIDDLE|BOTTOM|BASELINE',
-                'VLINK'          => 'color',
-                'WIDTH',         '\d+%?',
-                'WRAP',          'OFF|VIRTUAL|PHYSICAL',
-                'X',             '\d+',
-                'Y',             '\d+'
-        },
-
-        'badTextContext' =>
-        {
-                'HEAD',  'BODY, or TITLE perhaps',
-                'UL',    'LI or LH',
-                'OL',    'LI or LH',
-                'DL',    'DT or DD',
-                'TABLE', 'TD or TH',
-                'TR',    'TD or TH'
-        },
-
-        'bodyColorAttributes' =>
-        [
-                qw(BGCOLOR TEXT LINK ALINK VLINK)
-        ],
-
-);
 =cut
+
+sub add_tag {
+    my $tag = shift;
+
+    if ( !$isKnownAttribute{ $tag } ) {
+        $isKnownAttribute{ $tag } = {};
+    }
+
+    return;
+}
+
+
+=head2 add_attribute( $tag, $attribute );
+
+Adds an attribute to a tag that HTML::Lint knows about.  The tag must
+already be known to HTML::Lint or else this function will die.
+
+    HTML::Lint::HTML4::add_attribute( 'canvas', $_ ) for qw( height width );
+
+=cut
+
+sub add_attribute {
+    my $tag  = shift;
+    my $attr = shift;
+
+    my $attrs = $isKnownAttribute{ $tag } || die "Tag $tag is unknown";
+
+    $isKnownAttribute{ $tag }->{ $attr } = 1;
+
+    return;
+}
 
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::Lint::HTML4 -- Rules for HTML 4 as used by HTML::Lint.
-
-=head1 SYNOPSIS
-
-No user serviceable parts inside.  Used by HTML::Lint.
-
-=head1 SEE ALSO
-
-=over 4
-
-=item HTML::Lint
-
-=back
 
 =head1 AUTHOR
 
@@ -268,9 +205,14 @@ Andy Lester C<andy at petdance.com>
 
 =head1 COPYRIGHT
 
-Copyright (c) Andy Lester 2005. All Rights Reserved.
+Copyright 2005-2015 Andy Lester.
 
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
+This program is free software; you can redistribute it and/or modify it
+under the terms of the Artistic License v2.0.
+
+http://www.opensource.org/licenses/Artistic-2.0
+
+Please note that these modules are not products of or supported by the
+employers of the various contributors to the code.
 
 =cut
