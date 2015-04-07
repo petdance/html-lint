@@ -102,7 +102,7 @@ sub _start_document {
 sub _end_document {
     my ($self,$line,$column) = @_;
 
-    for my $tag ( keys %isRequired ) {
+    for my $tag ( sort keys %isRequired ) {
         if ( !$self->{_first_seen}->{$tag} ) {
             $self->gripe( 'doc-tag-required', tag => $tag );
         }
