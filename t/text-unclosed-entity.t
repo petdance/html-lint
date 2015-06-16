@@ -25,7 +25,7 @@ __DATA__
     </head>
     <body bgcolor="white">
         Mot&ouml rhead rulez!
-        But can we find an unclosed entity at the end of the line &#63
+        &sup; &sup2; But can we find an unclosed entity at the end of the line &#63
         <p>
         What about unclosed unknown entities in the &middle of the line?
         Here's an awesome link to <a href="http://www.youtube.com/watch?v=8yLhA0ROGi4&feature=related">"You Better Swim"</a> from the SpongeBob movie.
