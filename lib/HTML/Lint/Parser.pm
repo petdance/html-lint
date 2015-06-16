@@ -52,6 +52,7 @@ sub new {
             text_h             => [ \&_text,           'self,text' ],
             strict_names       => 0,
             empty_element_tags => 1,
+	    attr_encoded       => 1,
         );
     bless $self, $class;
 
@@ -130,6 +131,8 @@ sub _start {
             if ( !$validattr->{$attr} ) {
                 $self->gripe( 'attr-unknown', tag => $tag, attr => $attr );
             }
+
+	    $self->_entity($val, 'attr');
         } # while attribs
     }
     else {
