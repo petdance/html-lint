@@ -284,7 +284,7 @@ sub _normalize_value {
     $what = _trim( $what );
     return 1 if $what =~ /^(?:1|on|true)$/;
     return 0 if $what =~ /^(?:0|off|false)$/;
-    return undef;
+    return;
 }
 
 sub _trim {
