@@ -110,7 +110,7 @@ sub _expand_error {
     while ( @_ ) {
         my $var = shift;
         my $val = shift;
-        $str =~ s/\$\{$var\}/$val/g;
+        $str =~ s/\$\{$var\}/$val/g if defined($val);
     }
 
     $self->{_errtext} = $str;
