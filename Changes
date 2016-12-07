@@ -20,6 +20,10 @@ NEXT
     Handle characters that are not handled by HTML::Entities. (GitHub
     issue #13) Thanks, Tim Landscheidt.
 
+    [INTERNALS]
+    Add a test to verify a fixed bug. Thanks to Lance Wicks as part of
+    the CPAN Pull Request Challenge.
+
 
 2.22    Mon Apr  6 15:47:11 CDT 2015
     [CHANGES THAT COULD BREAK YOUR CODE]
