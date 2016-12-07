@@ -1,4 +1,4 @@
-use encoding 'utf8';
+use utf8;
 use warnings;
 use strict;
 require 't/LintTest.pl';
