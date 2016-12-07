@@ -12,7 +12,7 @@ NEXT
     Errors of the type doc-tag-required did not come out in any defined
     order.  They are now sorted by tag name.  This was discovered
     because hash randomization caused tests to fail on Perl 5.18 and
-    above. Thanks, Slaven Rezic and Andrew Main.
+    above. Thanks, Slaven Rezic, Andrew Main and Lisa Hare.
 
     Handle some warnings that get thrown if certain values are undef.
     Thanks, Yves Lavoie.
