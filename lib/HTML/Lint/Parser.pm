@@ -398,7 +398,7 @@ sub _start_input {
     my ($self,$tag,%attr) = @_;
 
     my ($type,$alt) = @attr{qw( type alt )};
-    if ( lc($type) eq 'image' ) {
+    if ( defined($type) && (lc($type) eq 'image') ) {
         my $ok = defined($alt);
         if ( $ok ) {
             $alt =~ s/^ +//;
