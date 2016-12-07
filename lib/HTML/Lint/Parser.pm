@@ -162,9 +162,9 @@ sub _text {
     my ($self,$text) = @_;
 
     if ( not $self->{_entity_lookup} ) {
-	my @entities = sort keys %HTML::Entities::entity2char;
-	# Strip his semicolons
-	s/;$// for @entities;
+        my @entities = sort keys %HTML::Entities::entity2char;
+        # Strip his semicolons
+        s/;$// for @entities;
         $self->{_entity_lookup} = { map { ($_,1) } @entities };
     }
 
@@ -180,11 +180,11 @@ sub _text {
     while ( $text =~ /&([^ ;]*;?)/g ) {
         my $match = $1;
 
-        if ( $match eq "" ) {
+        if ( $match eq '' ) {
             $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
         } elsif ( $match !~ m/;$/ ) {
-            if ( exists $self->{_entity_lookup}->{$match} 
-		 || $match =~ m/^#(\d+)$/ || $match =~ m/^#x[\dA-F]+$/i) {
+            if ( exists $self->{_entity_lookup}->{$match}
+                 || $match =~ m/^#(\d+)$/ || $match =~ m/^#x[\dA-F]+$/i) {
                 $self->gripe( 'text-unclosed-entity', entity => "&$match;" );
             } else {
                 $self->gripe( 'text-unknown-entity', entity => "&$match" );
@@ -198,7 +198,7 @@ sub _text {
                 $self->gripe( 'text-invalid-entity', entity => "&$match" );
             }
         } else {
-	    $match =~ s/;$//;
+            $match =~ s/;$//;
             unless ( exists $self->{_entity_lookup}->{$match} ) {
                 $self->gripe( 'text-unknown-entity', entity => "&$match;" );
             }
