@@ -6,6 +6,31 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+NEXT
+
+    [ENHANCEMENTS]
+    Added detection of unknown HTML entities, like "known &unclosed
+    &entities are not found".  Also fixes the case where HTML::Lint
+    gets confused by an entity like "&sup2;" which it thought was an
+    unterminated "&sup;" entity.  Thanks, Klaus S. Madsen.
+
+    [FIXES]
+    Errors of the type doc-tag-required did not come out in any defined
+    order.  They are now sorted by tag name.  This was discovered
+    because hash randomization caused tests to fail on Perl 5.18 and
+    above. Thanks, Slaven Rezic, Andrew Main and Lisa Hare.
+
+    Handle some warnings that get thrown if certain values are undef.
+    Thanks, Yves Lavoie.
+
+    Handle characters that are not handled by HTML::Entities. (GitHub
+    issue #13) Thanks, Tim Landscheidt.
+
+    [INTERNALS]
+    Add a test to verify a fixed bug. Thanks to Lance Wicks as part of
+    the CPAN Pull Request Challenge.
+
+
 2.22    Mon Apr  6 15:47:11 CDT 2015
     [CHANGES THAT COULD BREAK YOUR CODE]
     Previously, html_ok() would not check the entire structure of a web

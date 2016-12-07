@@ -7,7 +7,7 @@ use HTML::Parser 3.20;
 use HTML::Tagset 3.03;
 
 use HTML::Lint::HTML4 qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
-use HTML::Entities qw( %char2entity );
+use HTML::Entities qw( %char2entity %entity2char );
 
 use base 'HTML::Parser';
 
@@ -102,7 +102,7 @@ sub _start_document {
 sub _end_document {
     my ($self,$line,$column) = @_;
 
-    for my $tag ( keys %isRequired ) {
+    for my $tag ( sort keys %isRequired ) {
         if ( !$self->{_first_seen}->{$tag} ) {
             $self->gripe( 'doc-tag-required', tag => $tag );
         }
@@ -161,8 +161,11 @@ sub _start {
 sub _text {
     my ($self,$text) = @_;
 
-    while ( $text =~ /&(?![#0-9a-z])/ig ) {
-        $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
+    if ( not $self->{_entity_lookup} ) {
+        my @entities = sort keys %HTML::Entities::entity2char;
+        # Strip his semicolons
+        s/;$// for @entities;
+        $self->{_entity_lookup} = { map { ($_,1) } @entities };
     }
 
     while ( $text =~ /([^\x09\x0A\x0D -~])/g ) {
@@ -174,47 +177,31 @@ sub _text {
         );
     }
 
-    if ( not $self->{_unclosed_entities_regex} ) {
-        # Get Gisle's list
-        my @entities = sort keys %HTML::Entities::entity2char;
+    while ( $text =~ /&([^ ;]*;?)/g ) {
+        my $match = $1;
 
-        # Strip his semicolons
-        s/;$// for @entities;
-
-        # Build a regex
-        my $entities = join( '|', @entities );
-        $self->{_unclosed_entities_regex} = qr/&($entities)(?!;)/;
-
-        $self->{_entity_lookup} = { map { ($_,1) } @entities };
-    }
-
-    while ( $text =~ m/$self->{_unclosed_entities_regex}/g ) {
-        my $ent = $1;
-        $self->gripe( 'text-unclosed-entity', entity => "&$ent;" );
-    }
-
-    while ( $text =~ m/&([^;]+);/g ) {
-        my $ent = $1;
-
-        # Numeric entities are fine, if they're not too large.
-        if ( $ent =~ /^#(\d+)$/ ) {
+        if ( $match eq '' ) {
+            $self->gripe( 'text-use-entity', char => '&', entity => '&amp;' );
+        } elsif ( $match !~ m/;$/ ) {
+            if ( exists $self->{_entity_lookup}->{$match}
+                 || $match =~ m/^#(\d+)$/ || $match =~ m/^#x[\dA-F]+$/i) {
+                $self->gripe( 'text-unclosed-entity', entity => "&$match;" );
+            } else {
+                $self->gripe( 'text-unknown-entity', entity => "&$match" );
+            }
+        } elsif ( $match =~ m/^#(\d+);$/ ) {
             if ( $1 > 65536 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+                $self->gripe( 'text-invalid-entity', entity => "&$match" );
             }
-            next;
-        }
-
-        # Hex entities are fine, if they're not too large.
-        if ( $ent =~ /^#x([\dA-F]+)$/i ) {
+        } elsif ( $match =~ m/^#x([\dA-F]+);$/i ) {
             if ( length($1) > 4 ) {
-                $self->gripe( 'text-invalid-entity', entity => "&$ent;" );
+                $self->gripe( 'text-invalid-entity', entity => "&$match" );
             }
-            next;
-        }
-
-        # If it's not a numeric entity, then check the lookup table.
-        if ( !exists $self->{_entity_lookup}{$ent} ) {
-            $self->gripe( 'text-unknown-entity', entity => "&$ent;" );
+        } else {
+            $match =~ s/;$//;
+            unless ( exists $self->{_entity_lookup}->{$match} ) {
+                $self->gripe( 'text-unknown-entity', entity => "&$match;" );
+            }
         }
     }
 
@@ -398,7 +385,7 @@ sub _start_input {
     my ($self,$tag,%attr) = @_;
 
     my ($type,$alt) = @attr{qw( type alt )};
-    if ( lc($type) eq 'image' ) {
+    if ( defined($type) && (lc($type) eq 'image') ) {
         my $ok = defined($alt);
         if ( $ok ) {
             $alt =~ s/^ +//;
