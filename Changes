@@ -6,6 +6,10 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+2.24    Wed Dec  7 22:20:13 CST 2016
+    Official release.  No changes from 2.23_01.
+
+
 2.23_01 Tue Dec  6 22:48:56 CST 2016
     [ENHANCEMENTS]
     Added detection of unknown HTML entities, like "known &unclosed

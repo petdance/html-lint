@@ -18,11 +18,11 @@ Test::HTML::Lint - Test::More-style wrapper around HTML::Lint
 
 =head1 VERSION
 
-Version 2.23_01
+Version 2.24
 
 =cut
 
-$VERSION = '2.23_01';
+$VERSION = '2.24';
 
 my $Tester = Test::Builder->new;
 
@@ -217,7 +217,7 @@ this module is taken.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2015 Andy Lester.
+Copyright 2005-2016 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License v2.0.
