@@ -1,22 +1,18 @@
-#!perl -Tw
-
-use warnings;
 use strict;
+use warnings;
+require 't/LintTest.pl';
 
-use Test::More tests => 4;
+my $html = '</body>';
 
-BEGIN { use_ok( 'HTML::Lint' ); }
+checkit( [
+    [ 'elem-unopened'    => 'Set #1 (1:1) </body> with no opening <body>' ],
+    [ 'doc-tag-required' => 'Set #1 (1:1) <body> tag is required' ],
+    [ 'doc-tag-required' => 'Set #1 (1:1) <head> tag is required' ],
+    [ 'doc-tag-required' => 'Set #1 (1:1) <html> tag is required' ],
+    [ 'doc-tag-required' => 'Set #1 (1:1) <title> tag is required' ],
+], [$html] );
 
-my $lint = HTML::Lint->new();
-isa_ok( $lint, "HTML::Lint" );
-$lint->parse( '</body>' );
-
-my @errors = $lint->errors;
-my $error = shift @errors;
-is( $error->as_string, " (1:1) </body> with no opening <body>", "Got expected error" );
-is( scalar @errors, 0, "No more errors" );
-
-__DATA__
+__END__
 This doesn't test the error finding as much as the where() method.
 It fixes the following bug:
 
