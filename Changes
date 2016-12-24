@@ -7,6 +7,18 @@ NOTE: All bugs and requests are now being handled through GitHub.
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
 NEXT
+    [ENHANCEMENTS]
+    Added two new types of errors to let you know you're using the
+    API incorrectly.  You should be parsing files like this:
+
+        my $lint = HTML::Lint->new;
+        $lint->newfile( $filename );
+        $lint->parse( $line );
+        $lint->eof();
+        my @errors = $lint->errors();
+
+    If you neglect to call ->parse or ->eof, you'll get an error returned
+    in the list of errors from ->errors().
 
 
 2.24    Wed Dec  7 22:20:13 CST 2016

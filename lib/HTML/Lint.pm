@@ -25,9 +25,17 @@ our $VERSION = '2.25_01';
     my $lint = HTML::Lint->new;
     $lint->only_types( HTML::Lint::Error::STRUCTURE );
 
-    $lint->parse( $data );
+    # Parse lines of data.
+    $lint->newfile( $filename );
+    while ( my $line = <> ) {
+        $lint->parse( $line );
+    }
+    $lint->eof();
+
+    # Or, parse an entire file at once.
     $lint->parse_file( $filename );
 
+    # Fetch the errors that the linter found.
     my $error_count = $lint->errors;
 
     foreach my $error ( $lint->errors ) {
@@ -124,7 +132,11 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 sub parse {
     my $self = shift;
 
-    return $self->parser->parse( @_ );
+    my $rc = $self->parser->parse( @_ );
+
+    $self->{_parse_called} = 1;
+
+    return $rc;
 }
 
 =head2 $lint->parse_file( $file )
@@ -140,7 +152,7 @@ sub parse_file {
     return $self->parser->parse_file( @_ );
 }
 
-=head2 $lint->eof
+=head2 $lint->eof()
 
 Signals the end of a block of text getting passed in.  This must be
 called to make sure that all parsing is complete before looking at errors.
@@ -156,8 +168,9 @@ sub eof {
     my $rc;
     my $parser = $self->parser;
     if ( $parser ) {
-        $rc = $self->parser->eof(@_);
+        $rc = $parser->eof(@_);
         delete $self->{_parser};
+        $self->{_eof_called} = 1;
     }
 
     return $rc;
@@ -174,6 +187,13 @@ In scalar context, it returns the number of errors found.
 
 sub errors {
     my $self = shift;
+
+    if ( !$self->{_parse_called} ) {
+        $self->gripe( 'api-parse-not-called' );
+    }
+    elsif ( !$self->{_eof_called} ) {
+        $self->gripe( 'api-eof-not-called' );
+    }
 
     if ( wantarray ) {
         return @{$self->{_errors}};
@@ -256,8 +276,12 @@ Call C<newfile()> whenever you switch to another file in a batch
 of linting.  Otherwise, the object thinks everything is from the
 same file.  Note that the list of errors is NOT cleared.
 
-Note that I<$filename> does NOT need to match what's put into parse()
-or parse_file().  It can be a description, a URL, or whatever.
+Note that I<$filename> does NOT need to match what's put into C<parse()>
+or C<parse_file()>.  It can be a description, a URL, or whatever.
+
+You should call C<newfile()> even if you are only validating one file. If
+you do not call C<newfile()> then your errors will not have a filename
+attached to them.
 
 =cut
 
@@ -266,6 +290,8 @@ sub newfile {
     my $file = shift;
 
     delete $self->{_parser};
+    delete $self->{_parse_called};
+    delete $self->{_eof_called};
     $self->{_file} = $file;
     $self->{_line} = 0;
     $self->{_column} = 0;

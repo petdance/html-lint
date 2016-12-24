@@ -233,6 +233,8 @@ for a specific error.
 =cut
 
 %errors = (
+    'api-parse-not-called'     => ['The parse() method has not been called on this file.', CONFIG],
+    'api-eof-not-called'       => ['The eof() method has not been called on this file.', CONFIG],
     'config-unknown-directive' => ['Unknown directive "${directive}"', CONFIG],
     'config-unknown-value'     => ['Unknown value "${value}" for ${directive} directive', CONFIG],
 
@@ -255,6 +257,14 @@ for a specific error.
     'text-unknown-entity'      => ['Entity ${entity} is unknown', STRUCTURE],
     'text-use-entity'          => ['Character "${char}" should be written as ${entity}', STRUCTURE],
 );
+
+=head2 api-parse-not-called
+
+You called the C<errors()> method before calling C<parse()> and C<eof()>.
+
+=head2 api-parse-not-called
+
+You called the C<errors()> method before calling C<eof()>.
 
 =head2 config-unknown-directive
 

@@ -13,18 +13,21 @@ FUNC_METHOD: {
     my $lint = HTML::Lint->new();
     isa_ok( $lint, 'HTML::Lint' );
     $lint->parse( $text );
+    $lint->eof;
     is( scalar $lint->errors, 1, 'One error with a clean lint' );
 
     $lint->newfile();
     $lint->clear_errors();
     $lint->only_types( HELPER, FLUFF );
     $lint->parse( $text );
+    $lint->eof;
     is( scalar $lint->errors, 0, 'No errors if helper & fluff' );
 
     $lint->newfile();
     $lint->clear_errors();
     $lint->only_types( STRUCTURE );
     $lint->parse( $text );
+    $lint->eof;
     my @errors = $lint->errors;
     if ( !is( scalar @errors, 1, 'One error if we specify STRUCTURE if we turn it off' ) ) {
         diag( $_->as_string ) for @errors;
