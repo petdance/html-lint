@@ -174,6 +174,7 @@ sub html_fragment_ok {
     }
     else {
         $lint->parse( $html );
+        $lint->eof();
         my $nerr = scalar $lint->errors;
         $ok = !$nerr;
         $Tester->ok( $ok, $name );
