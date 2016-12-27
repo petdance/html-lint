@@ -6,10 +6,11 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
-NEXT
+2.25_02 Tue Dec 27 14:34:22 CST 2016
     [FIXES]
     html_fragment_ok() was not properly excluding document-level errors.
     It was effectively the same as html_ok().
+
 
 2.25_01 Fri Dec 23 22:36:17 CST 2016
     [ENHANCEMENTS]
