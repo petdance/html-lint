@@ -175,14 +175,18 @@ sub html_fragment_ok {
     else {
         $lint->parse( $html );
         $lint->eof();
-        my $nerr = scalar $lint->errors;
+
+        # Ignore doc-level errors.
+        my @errors = grep { $_->errcode ne 'doc-tag-required' } $lint->errors;
+
+        my $nerr = @errors;
         $ok = !$nerr;
         $Tester->ok( $ok, $name );
         if ( !$ok ) {
             my $msg = 'Errors:';
             $msg .= " $name" if $name;
             $Tester->diag( $msg );
-            $Tester->diag( $_->as_string ) for $lint->errors;
+            $Tester->diag( $_->as_string ) for @errors;
         }
     }
 

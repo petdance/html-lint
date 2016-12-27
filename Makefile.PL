@@ -20,14 +20,15 @@ my %parms = (
     PMLIBDIRS       => [qw(lib/)],
     AUTHOR          => 'Andy Lester <andy@petdance.com>',
     PREREQ_PM       => {
-        'Exporter'       => 0,
-        'Test::More'     => 0,
-        'Test::Builder'  => 0,
+        'Exporter'              => 0,
+        'Test::More'            => 0,
+        'Test::Builder'         => 0,
+        'Test::Builder::Tester' => 0,
 
-        'File::Find'     => 0,
-        'HTML::Entities' => 0,
-        'HTML::Parser'   => '3.47',
-        'HTML::Tagset'   => '3.03',
+        'File::Find'            => 0,
+        'HTML::Entities'        => 0,
+        'HTML::Parser'          => '3.47',
+        'HTML::Tagset'          => '3.03',
     },
     EXE_FILES   => [qw(bin/weblint)],
     dist => {
