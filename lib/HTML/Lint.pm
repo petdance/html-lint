@@ -358,8 +358,6 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
 =item * Form fields that aren't in a FORM
 
-=item * Check for valid entities, and that they end with semicolons
-
 =item * DIVs with nothing in them.
 
 =item * HEIGHT= that have percents in them.

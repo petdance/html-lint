@@ -6,6 +6,13 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+
+NEXT
+    [ENHANCEMENTS]
+    Adds checking of entities in attributes, not just text.  Thanks,
+    Klaus S. Madsen.
+
+
 2.26    Thu Dec 29 22:36:54 CST 2016
     Stable release.  No changes from previous release.
 
