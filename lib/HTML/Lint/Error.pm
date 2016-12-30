@@ -251,6 +251,10 @@ for a specific error.
 
     'attr-repeated'            => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
     'attr-unknown'             => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+    'attr-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
+    'attr-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
+    'attr-unknown-entity'      => ['Entity ${entity} is unknown', STRUCTURE],
+    'attr-use-entity'          => ['Character "${char}" should be written as ${entity}', STRUCTURE],
 
     'text-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
     'text-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
