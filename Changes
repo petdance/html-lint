@@ -6,6 +6,10 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+2.26    Thu Dec 29 22:36:54 CST 2016
+    Stable release.  No changes from previous release.
+
+
 2.25_02 Tue Dec 27 14:34:22 CST 2016
     [FIXES]
     html_fragment_ok() was not properly excluding document-level errors.
