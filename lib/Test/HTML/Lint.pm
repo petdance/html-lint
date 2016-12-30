@@ -18,11 +18,11 @@ Test::HTML::Lint - Test::More-style wrapper around HTML::Lint
 
 =head1 VERSION
 
-Version 2.26
+Version 2.27_01
 
 =cut
 
-$VERSION = '2.26';
+$VERSION = '2.27_01';
 
 my $Tester = Test::Builder->new;
 
