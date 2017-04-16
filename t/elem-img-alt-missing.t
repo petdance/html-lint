@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'elem-img-alt-missing' => qr/<IMG SRC="whizbang\.jpg"> does not have ALT text defined/i ],

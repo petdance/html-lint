@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'text-unknown-entity' => qr/Entity &metalhorns; is unknown/ ],

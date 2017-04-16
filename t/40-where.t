@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 my $html = '</body>';
 

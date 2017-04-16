@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'attr-invalid-entity' => qr/Entity &#8675309; is invalid/i ],

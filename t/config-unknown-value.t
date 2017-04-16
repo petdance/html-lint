@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'config-unknown-value' => qr/Unknown value "14" for elem-img-sizes-missing directive$/ ],
