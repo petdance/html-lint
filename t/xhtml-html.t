@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
 ], [<DATA>] );

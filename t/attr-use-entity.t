@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'attr-use-entity'      => qr/Character "\\xF1" should be written as &ntilde;/ ],

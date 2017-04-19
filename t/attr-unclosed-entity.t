@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'attr-unclosed-entity' => qr/Entity &#63; is missing its closing semicolon/ ],

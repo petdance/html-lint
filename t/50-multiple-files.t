@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 my @files = get_paragraphed_files();
 

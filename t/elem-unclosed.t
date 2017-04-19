@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'elem-unclosed' => qr/\Q<b> at (6:5) is never closed/i ],
