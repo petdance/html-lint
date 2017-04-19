@@ -12,6 +12,10 @@ NEXT
     Adds checking of entities in attributes, not just text.  Thanks,
     Klaus S. Madsen.
 
+    [INTERNALS]
+    Prepare for perl 5.26.0 which removes '.' from @INC.  Thanks,
+    Jim Keenan.
+
 
 2.26    Thu Dec 29 22:36:54 CST 2016
     Stable release.  No changes from previous release.
