@@ -332,7 +332,7 @@ If you want to turn off all HTML::Lint warnings for a block of code, use
 
 And turn them back on with
 
-    <!-- html-lint all: off -->
+    <!-- html-lint all: on -->
 
 You don't have to use "on" and "off".  For "on", you can use "true"
 or "1".  For "off", you can use "0" or "false".
