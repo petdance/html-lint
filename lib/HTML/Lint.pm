@@ -149,7 +149,13 @@ See L<HTML::Parser>'s C<parse_file> method for details.
 
 sub parse_file {
     my $self = shift;
-    return $self->parser->parse_file( @_ );
+
+    my $rc = $self->parser->parse_file( @_ );
+
+    $self->{_parse_called} = 1;
+    $self->eof;
+
+    return $rc;
 }
 
 =head2 $lint->eof()
