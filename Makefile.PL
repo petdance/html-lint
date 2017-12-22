@@ -19,6 +19,7 @@ my %parms = (
     ABSTRACT_FROM   => 'lib/HTML/Lint.pm',
     PMLIBDIRS       => [qw(lib/)],
     AUTHOR          => 'Andy Lester <andy@petdance.com>',
+    MIN_PERL_VERSION=> 5.006,
     PREREQ_PM       => {
         'Exporter'              => 0,
         'Test::More'            => 0,

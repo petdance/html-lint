@@ -251,6 +251,10 @@ for a specific error.
 
     'attr-repeated'            => ['${attr} attribute in <${tag}> is repeated', STRUCTURE],
     'attr-unknown'             => ['Unknown attribute "${attr}" for tag <${tag}>', FLUFF],
+    'attr-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
+    'attr-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
+    'attr-unknown-entity'      => ['Entity ${entity} is unknown', STRUCTURE],
+    'attr-use-entity'          => ['Character "${char}" should be written as ${entity}', STRUCTURE],
 
     'text-invalid-entity'      => ['Entity ${entity} is invalid', STRUCTURE],
     'text-unclosed-entity'     => ['Entity ${entity} is missing its closing semicolon', STRUCTURE],
@@ -336,7 +340,7 @@ Character "CHAR" should be written as ENTITY
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2016 Andy Lester.
+Copyright 2005-2017 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License v2.0.

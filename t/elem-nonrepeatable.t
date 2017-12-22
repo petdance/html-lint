@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'elem-nonrepeatable' => qr/<title> is not repeatable, but already appeared at \(3:2\)/i ],

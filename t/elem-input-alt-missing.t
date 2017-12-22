@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-require 't/LintTest.pl';
+require './t/LintTest.pl';
 
 checkit( [
     [ 'elem-input-alt-missing' => qr/<input name="dave" type="image"> does not have non-blank ALT text defined/i ],
