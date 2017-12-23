@@ -1,3 +1,8 @@
+# HTML::Lint
+
+* Linux [![Build Status](https://api.travis-ci.org/petdance/html-lint.svg?branch=dev)](https://travis-ci.org/petdance/html-lint)
+* [CPAN Testers](http://cpantesters.org/distro/H/html-lint.html)
+
 HTML::Lint is a pure-Perl HTML parser and checker for syntactic legitmacy.
 It supports only HTML 4.
 
@@ -9,4 +14,5 @@ of the Perl testing framework, Test::HTML::Lint lets you automate HTML
 checking.
 
 Andy Lester
-andy at petdance.com
+
+andy at petdance dot com
