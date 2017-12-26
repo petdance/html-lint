@@ -2,7 +2,9 @@
 
 use warnings;
 use strict;
-require './t/LintTest.pl';
+
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'attr-use-entity'      => qr/Character "\\xF1" should be written as &ntilde;/ ],

@@ -1,7 +1,9 @@
 use utf8;
 use warnings;
 use strict;
-require './t/LintTest.pl';
+
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'text-use-entity'      => qr/Character "\\x0B" should be written as &#11;/ ],

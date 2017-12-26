@@ -3,7 +3,8 @@
 use warnings;
 use strict;
 
-require './t/LintTest.pl';
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'text-unclosed-entity' => qr/Entity &ouml; is missing its closing semicolon/ ],

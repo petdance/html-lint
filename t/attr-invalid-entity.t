@@ -2,7 +2,9 @@
 
 use warnings;
 use strict;
-require './t/LintTest.pl';
+
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'attr-invalid-entity' => qr/Entity &#8675309; is invalid/i ],

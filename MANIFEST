@@ -21,7 +21,7 @@ t/30-test-builder.t
 t/40-where.t
 t/50-multiple-files.t
 t/60-add-tags.t
-t/LintTest.pl
+t/Util.pm
 t/api-eof-not-called.t
 t/api-parse-not-called.t
 t/attr-invalid-entity.t

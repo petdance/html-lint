@@ -1,6 +1,8 @@
 use warnings;
 use strict;
-require './t/LintTest.pl';
+
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'attr-unknown' => qr/Unknown attribute "FOOD" for tag <P>/i ],

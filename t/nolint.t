@@ -1,6 +1,8 @@
 use warnings;
 use strict;
-require './t/LintTest.pl';
+
+use lib 't/';
+use Util;
 
 checkit( [
     [ 'elem-img-sizes-missing' => qr/\Q<img src="alpha.jpg"> tag has no HEIGHT and WIDTH attributes/i ],

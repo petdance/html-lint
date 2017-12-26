@@ -1,5 +1,17 @@
+package Util;
+
+use parent 'Exporter';
+
+use warnings;
+use strict;
+
 use Test::More;
 use HTML::Lint;
+
+our @EXPORT = qw(
+    checkit
+    get_paragraphed_files
+);
 
 sub checkit {
     my @expected = @{+shift};
@@ -43,25 +55,9 @@ sub checkit {
     is( scalar @expected, 0, 'No expected errors missing' ) or $dump = 1;
 
     if ( $dump && @errors ) {
-        diag( "Leftover errors..." ); 
+        diag( "Leftover errors..." );
         diag( $_->as_string ) for @errors;
     }
-}
-
-# Read in a set of sets of lines, where each "file" is separated by a
-# blank line in <DATA>
-sub get_paragraphed_files {
-    local $/ = "";
-
-    my @sets;
-
-    while ( my $paragraph = <DATA> ) {
-        my @lines = split /\n/, $paragraph;
-        @lines = map { "$_\n" } @lines;
-        push( @sets, [@lines] );
-    }
-
-    return @sets;
 }
 
 1; # happy
