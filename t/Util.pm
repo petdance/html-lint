@@ -10,7 +10,6 @@ use HTML::Lint;
 
 our @EXPORT = qw(
     checkit
-    get_paragraphed_files
 );
 
 sub checkit {

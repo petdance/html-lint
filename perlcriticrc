@@ -20,16 +20,21 @@ allow_leading_tabs = 0
 [-InputOutput::RequireCheckedSyscalls]
 functions = open opendir read readline readdir close closedir
 
-[-Modules::ProhibitEvilModules]
+[Modules::ProhibitEvilModules]
 modules = autodie
+severity = 5
+
 [-Modules::RequirePerlVersion]
 [-Modules::RequireVersionVar]
 
+[-RegularExpressions::ProhibitComplexRegexes]
+# We have a ton of long regexes in our tests.
 [-RegularExpressions::RequireDotMatchAnything]
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
 [-Subroutines::RequireArgUnpacking]
+[-Subroutines::ProhibitCallsToUndeclaredSubs]
 
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
