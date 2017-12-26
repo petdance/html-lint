@@ -1,3 +1,5 @@
+verbose = %f:%l:%c %m (%p)\n    %r\n\n
+
 [-CodeLayout::ProhibitParensWithBuiltins]
 [CodeLayout::ProhibitHardTabs]
 allow_leading_tabs = 0
@@ -9,6 +11,8 @@ allow_leading_tabs = 0
 [-Documentation::RequirePodAtEnd]
 [-Documentation::RequirePodSections]
 
+[-Editor::RequireEmacsFileVariables]
+
 [-ErrorHandling::RequireCarping]
 
 [-InputOutput::ProhibitInteractiveTest]
@@ -16,6 +20,9 @@ allow_leading_tabs = 0
 [-InputOutput::RequireCheckedSyscalls]
 functions = open opendir read readline readdir close closedir
 
+[-Modules::ProhibitEvilModules]
+modules = autodie
+[-Modules::RequirePerlVersion]
 [-Modules::RequireVersionVar]
 
 [-RegularExpressions::RequireDotMatchAnything]
@@ -27,7 +34,6 @@ functions = open opendir read readline readdir close closedir
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
 [-ValuesAndExpressions::ProhibitMagicNumbers]
-
 
 [-Variables::ProhibitPackageVars]
 [-Variables::ProhibitPunctuationVars]

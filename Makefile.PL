@@ -69,7 +69,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -1 -q -profile perlcriticrc lib/ bin/weblint Makefile.PL
+	perlcritic -1 -q -profile perlcriticrc lib/ bin/weblint Makefile.PL t/*.t
 
 PROF_ARGS = -Mblib blib/script/weblint index.html
 
