@@ -168,7 +168,7 @@ HTML::Parser's eof() method.
 
 =cut
 
-sub eof {
+sub eof {   ## no critic ( Subroutines::ProhibitBuiltinHomonyms )
     my $self = shift;
 
     my $rc;

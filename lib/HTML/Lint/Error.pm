@@ -5,7 +5,6 @@ use strict;
 
 use parent 'Exporter';
 
-our @EXPORT = ();
 our @EXPORT_OK = qw( STRUCTURE HELPER FLUFF );
 our %EXPORT_TAGS = ( types => [@EXPORT_OK] );
 

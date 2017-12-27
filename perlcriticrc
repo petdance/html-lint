@@ -11,6 +11,7 @@ allow_leading_tabs = 0
 [-ControlStructures::ProhibitPostfixControls]
 
 [-Documentation::RequirePodAtEnd]
+[-Documentation::RequirePodLinksIncludeText]
 [-Documentation::RequirePodSections]
 
 [-Editor::RequireEmacsFileVariables]
@@ -26,8 +27,12 @@ functions = open opendir read readline readdir close closedir
 [Modules::ProhibitEvilModules]
 modules = autodie
 
+[-Modules::ProhibitExcessMainComplexity]
 [-Modules::RequirePerlVersion]
 [-Modules::RequireVersionVar]
+
+[-NamingConventions::Capitalization]
+# The HTML::Entities conventions are outside of my control.
 
 [-RegularExpressions::ProhibitComplexRegexes]
 [-RegularExpressions::ProhibitEscapedMetacharacters]
@@ -46,6 +51,7 @@ modules = autodie
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
 [-ValuesAndExpressions::ProhibitMagicNumbers]
 [-ValuesAndExpressions::ProhibitNoisyQuotes]
+[-ValuesAndExpressions::RequireConstantOnLeftSideOfEquality]
 
 [-Variables::ProhibitPackageVars]
 [-Variables::ProhibitPunctuationVars]

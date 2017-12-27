@@ -374,7 +374,7 @@ sub _in_context {
 }
 
 # Overridden tag-specific stuff
-sub _start_img {
+sub _start_img {    ## no critic ( Subroutines::ProhibitUnusedPrivateSubroutines )  # Called by parser based on tag name.
     my ($self,$tag,%attr) = @_;
 
     my ($h,$w,$src) = @attr{qw( height width src )};
@@ -391,7 +391,7 @@ sub _start_img {
     return;
 }
 
-sub _start_input {
+sub _start_input {  ## no critic ( Subroutines::ProhibitUnusedPrivateSubroutines )  # Called by parser based on tag name.
     my ($self,$tag,%attr) = @_;
 
     my ($type,$alt) = @attr{qw( type alt )};

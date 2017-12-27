@@ -5,6 +5,7 @@ use strict;
 
 use Getopt::Long;
 use HTML::Lint;
+use HTML::Lint::Error;
 use HTML::Lint::HTML4;
 
 my $help;
