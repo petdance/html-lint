@@ -27,6 +27,7 @@ functions = open opendir read readline readdir close closedir
 [Modules::ProhibitEvilModules]
 modules = autodie
 
+[-Modules::ProhibitAutomaticExportation]
 [-Modules::ProhibitExcessMainComplexity]
 [-Modules::RequirePerlVersion]
 [-Modules::RequireVersionVar]

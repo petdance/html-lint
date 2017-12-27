@@ -18,7 +18,7 @@ sub checkit {
 
     plan( tests => 3*(scalar @expected) + 4 );
 
-    my $lint = new HTML::Lint;
+    my $lint = HTML::Lint->new;
     isa_ok( $lint, 'HTML::Lint', 'Created lint object' );
 
     my $n;
@@ -57,6 +57,8 @@ sub checkit {
         diag( 'Leftover errors...' );
         diag( $_->as_string ) for @errors;
     }
+
+    return;
 }
 
 1; # happy

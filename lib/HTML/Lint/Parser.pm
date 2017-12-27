@@ -286,8 +286,8 @@ sub _normalize_value {
     my $what = shift;
 
     $what = _trim( $what );
-    return 1 if $what =~ /^(?:1|on|true)$/;
-    return 0 if $what =~ /^(?:0|off|false)$/;
+    return 1 if $what eq '1' || $what eq 'on'  || $what eq 'true';
+    return 0 if $what eq '0' || $what eq 'off' || $what eq 'false';
     return undef;
 }
 
