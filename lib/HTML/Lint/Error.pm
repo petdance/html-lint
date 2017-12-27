@@ -232,7 +232,7 @@ for a specific error.
 
 =cut
 
-%errors = (
+%errors = ( ## no critic ( ValuesAndExpressions::RequireInterpolationOfMetachars )
     'api-parse-not-called'     => ['The parse() method has not been called on this file.', CONFIG],
     'api-eof-not-called'       => ['The eof() method has not been called on this file.', CONFIG],
     'config-unknown-directive' => ['Unknown directive "${directive}"', CONFIG],

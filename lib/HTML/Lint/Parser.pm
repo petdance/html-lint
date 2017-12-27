@@ -6,6 +6,7 @@ use strict;
 use HTML::Parser 3.20;
 use HTML::Tagset 3.03;
 
+use HTML::Lint::Error ();
 use HTML::Lint::HTML4 qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 use HTML::Entities qw( %char2entity %entity2char );
 
