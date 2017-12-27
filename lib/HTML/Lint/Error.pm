@@ -106,10 +106,12 @@ sub _expand_error {
         $str = "Unknown code: $errcode";
     }
 
-    while ( @_ ) {
-        my $var = shift;
-        my $val = shift;
-        $str =~ s/\$\{$var\}/$val/g if defined $str;
+    if ( defined $str ) {
+        while ( @_ ) {
+            my $var = shift;
+            my $val = shift;
+            $str =~ s/\$\{$var\}/$val/g;
+        }
     }
 
     $self->{_errtext} = $str;
