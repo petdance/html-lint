@@ -41,8 +41,9 @@ modules = autodie
 [-RegularExpressions::RequireExtendedFormatting]
 [-RegularExpressions::RequireLineBoundaryMatching]
 
-[-Subroutines::RequireArgUnpacking]
 [-Subroutines::ProhibitCallsToUndeclaredSubs]
+[-Subroutines::ProhibitExplicitReturnUndef]
+[-Subroutines::RequireArgUnpacking]
 
 [-TestingAndDebugging::RequireTestLabels]
 # I'm shocked to put this in here, but in this test suite I don't care.
