@@ -166,6 +166,8 @@ sub _text {
     my ($self,$text) = @_;
 
     $self->_entity($text, 'text');
+
+    return;
 }
 
 sub _entity {
