@@ -28,6 +28,4 @@ my $lint = HTML::Lint->new;
 
 $lint->parse_file($OUTPUT_FN);
 
-is_deeply ([map { $_->as_string() } $lint->errors()], [],
-    'HTML is valid for output file.'
-);
+is_deeply( [map { $_->as_string() } $lint->errors()], [], 'HTML is valid for output file.' );

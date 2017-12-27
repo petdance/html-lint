@@ -6,6 +6,11 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+NEXT
+    There should be no functionality changes since 2.27_01.
+
+    [INTERNALS]
+    Many Perl::Critic cleanups.
 
 2.27_01 Fri Dec 22 15:54:32 CST 2017
     [ENHANCEMENTS]

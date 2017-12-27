@@ -50,13 +50,13 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.46' ) {
             bugtracker => 'https://github.com/petdance/html-lint/issues',
             license    => 'http://www.opensource.org/licenses/artistic-license-2.0.php',
             repository => 'https://github.com/petdance/html-lint',
-        }
+        },
     };
 }
 
 WriteMakefile( %parms );
 
-sub MY::postamble {
+sub MY::postamble { ## no critic ( Subroutines::ProhibitQualifiedSubDeclarations )
     my $postamble = <<'MAKE_FRAG';
 
 .PHONY: tags critic

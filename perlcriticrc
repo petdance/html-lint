@@ -25,7 +25,6 @@ functions = open opendir read readline readdir close closedir
 
 [Modules::ProhibitEvilModules]
 modules = autodie
-severity = 5
 
 [-Modules::RequirePerlVersion]
 [-Modules::RequireVersionVar]
@@ -39,6 +38,9 @@ severity = 5
 
 [-Subroutines::RequireArgUnpacking]
 [-Subroutines::ProhibitCallsToUndeclaredSubs]
+
+[-TestingAndDebugging::RequireTestLabels]
+# I'm shocked to put this in here, but in this test suite I don't care.
 
 [-ValuesAndExpressions::ProhibitConstantPragma]
 [-ValuesAndExpressions::ProhibitEmptyQuotes]
