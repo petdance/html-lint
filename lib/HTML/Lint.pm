@@ -14,11 +14,11 @@ HTML::Lint - check for HTML errors in a string or file
 
 =head1 VERSION
 
-Version 2.27_01
+Version 2.27_02
 
 =cut
 
-our $VERSION = '2.27_01';
+our $VERSION = '2.27_02';
 
 =head1 SYNOPSIS
 
