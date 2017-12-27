@@ -1,7 +1,7 @@
 Changes
 MANIFEST
 Makefile.PL
-README
+README.md
 bin/weblint
 lib/HTML/Lint.pm
 lib/HTML/Lint/Error.pm
