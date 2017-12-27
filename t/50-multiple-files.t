@@ -20,7 +20,7 @@ checkit( [
 # Read in a set of sets of lines, where each "file" is separated by a
 # blank line in <DATA>
 sub _get_paragraphed_files {
-    local $/ = "";
+    local $/ = '';
 
     my @sets;
 

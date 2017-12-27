@@ -3,7 +3,7 @@ package HTML::Lint::Error;
 use warnings;
 use strict;
 
-use base 'Exporter';
+use parent 'Exporter';
 
 our @EXPORT = ();
 our @EXPORT_OK = qw( STRUCTURE HELPER FLUFF );

@@ -24,7 +24,7 @@ this modifies a global table, and is not on a per-object basis.
 
 =cut
 
-use base 'Exporter';
+use parent 'Exporter';
 our @EXPORT_OK = qw( %isKnownAttribute %isRequired %isNonrepeatable %isObsolete );
 
 sub _hash   { return { map { ($_ => 1) } @_ } }

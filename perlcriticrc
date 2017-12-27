@@ -14,6 +14,7 @@ allow_leading_tabs = 0
 [-Editor::RequireEmacsFileVariables]
 
 [-ErrorHandling::RequireCarping]
+[-ErrorHandling::RequireUseOfExceptions]
 
 [-InputOutput::ProhibitInteractiveTest]
 [-InputOutput::ProhibitBacktickOperators]
@@ -28,6 +29,7 @@ severity = 5
 [-Modules::RequireVersionVar]
 
 [-RegularExpressions::ProhibitComplexRegexes]
+[-RegularExpressions::ProhibitEscapedMetacharacters]
 # We have a ton of long regexes in our tests.
 [-RegularExpressions::RequireDotMatchAnything]
 [-RegularExpressions::RequireExtendedFormatting]

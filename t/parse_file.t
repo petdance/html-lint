@@ -2,11 +2,10 @@
 
 use warnings;
 use strict;
-use autodie;
 
 use Test::More tests => 1;
 use HTML::Lint;
-use File::Temp qw/ tempfile /;
+use File::Temp qw( tempfile );
 
 my ($o, $OUTPUT_FN) = tempfile( SUFFIX => '.xhtml', UNLINK => 1);
 print {$o} <<'EOF';
@@ -23,7 +22,7 @@ print {$o} <<'EOF';
 </body>
 </html>
 EOF
-close($o);
+close($o) or die $!;
 
 my $lint = HTML::Lint->new;
 
