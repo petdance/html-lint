@@ -268,7 +268,7 @@ for a specific error.
 
 You called the C<errors()> method before calling C<parse()> and C<eof()>.
 
-=head2 api-parse-not-called
+=head2 api-eof-not-called
 
 You called the C<errors()> method before calling C<eof()>.
 
