@@ -168,7 +168,8 @@ sub where {
     if ( not ref $_[0] ) {
         $line = shift;
         $col = shift;
-    } else {
+    }
+    else {
         my $self = shift;
         $line = $self->line;
         $col = $self->column;

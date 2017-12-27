@@ -60,7 +60,7 @@ our %isKnownAttribute = (
     blockquote  => _hash( @std, qw( cite ) ),
     body        => _hash( @std,
                     qw( alink background bgcolor link marginheight marginwidth onload onunload text vlink ),
-                    _ie_only( qw( bgproperties leftmargin topmargin ) )
+                    _ie_only( qw( bgproperties leftmargin topmargin ) ),
                     ),
     br          => _hash( @core, qw( clear ) ),
     button      => _hash( @std, qw( accesskey disabled name onblur onfocus tabindex type value ) ),

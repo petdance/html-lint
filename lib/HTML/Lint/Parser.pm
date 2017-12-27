@@ -192,24 +192,29 @@ sub _entity {
 
         if ( $match eq '' ) {
             $self->gripe( $type . '-use-entity', char => '&', entity => '&amp;' );
-        } elsif ( $match !~ m/;$/ ) {
+        }
+        elsif ( $match !~ m/;$/ ) {
             if ( exists $self->{_entity_lookup}->{$match}
                  || $match =~ m/^#(\d+)$/ || $match =~ m/^#x[\dA-F]+$/i) {
                 $self->gripe( $type . '-unclosed-entity', entity => "&$match;" );
-            } else {
+            }
+            else {
                 $self->gripe( $type . '-unknown-entity', entity => "&$match" );
             }
-        } elsif ( $match =~ m/^#(\d+);$/ ) {
+        }
+        elsif ( $match =~ m/^#(\d+);$/ ) {
             if ( $1 > 65536 ) {
                 $self->gripe( $type . '-invalid-entity', entity => "&$match" );
             }
-        } elsif ( $match =~ m/^#x([\dA-F]+);$/i ) {
+        }
+        elsif ( $match =~ m/^#x([\dA-F]+);$/i ) {
             if ( length($1) > 4 ) {
                 $self->gripe( $type . '-invalid-entity', entity => "&$match" );
             }
-        } else {
+        }
+        else {
             $match =~ s/;$//;
-            unless ( exists $self->{_entity_lookup}->{$match} ) {
+            if ( !exists $self->{_entity_lookup}->{$match} ) {
                 $self->gripe( $type . '-unknown-entity', entity => "&$match;" );
             }
         }
@@ -291,7 +296,7 @@ sub _trim {
     return $_[0];
 }
 
-sub _end {
+sub _end {  ## no critic ( Subroutines::ProhibitManyArgs ) I have no choice in what these args are.
     my ($self,$tag,$line,$column,$tokenpos,@attr) = @_;
 
     $self->{_line} = $line;
