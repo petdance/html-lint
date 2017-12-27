@@ -3,12 +3,8 @@
 use warnings;
 use strict;
 
-use Test::More tests => 3;
+use Test::More tests => 2;
 use Test::HTML::Lint;
-
-BEGIN {
-    use_ok( 'Test::HTML::Lint' );
-}
 
 my $chunk = '<html><head></head><body><title>A fine chunk of code</title></body></html>';
 

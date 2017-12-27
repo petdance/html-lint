@@ -4,9 +4,7 @@
 
 use Test::More 'no_plan';
 
-BEGIN {
-    use_ok( 'HTML::Lint::Error' );
-}
+use HTML::Lint::Error;
 
 my @errors = do { no warnings; keys %HTML::Lint::Error::errors };
 
