@@ -25,7 +25,7 @@ sub checkit {
     for my $set ( @linesets ) {
         ++$n;
         $lint->newfile( "Set #$n" );
-        $lint->parse( $_ ) for @$set;
+        $lint->parse( $_ ) for @{$set};
         $lint->eof;
     }
 
@@ -40,7 +40,7 @@ sub checkit {
 
         is( $error->errcode, $expected->[0], 'Error codes match' );
         my $match = $expected->[1];
-        if ( ref $match eq "Regexp" ) {
+        if ( ref($match) eq 'Regexp' ) {
             like( $error->as_string, $match, 'Error matches regex' );
         }
         else {
@@ -54,7 +54,7 @@ sub checkit {
     is( scalar @expected, 0, 'No expected errors missing' ) or $dump = 1;
 
     if ( $dump && @errors ) {
-        diag( "Leftover errors..." );
+        diag( 'Leftover errors...' );
         diag( $_->as_string ) for @errors;
     }
 }
