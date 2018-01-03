@@ -14,11 +14,11 @@ HTML::Lint - check for HTML errors in a string or file
 
 =head1 VERSION
 
-Version 2.27_02
+Version 2.27_03
 
 =cut
 
-our $VERSION = '2.27_02';
+our $VERSION = '2.27_03';
 
 =head1 SYNOPSIS
 
@@ -376,7 +376,7 @@ DO NOT send bug reports to http://rt.cpan.org/ or http://code.google.com/
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2005-2017 Andy Lester.
+Copyright 2005-2018 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the Artistic License v2.0.
