@@ -6,10 +6,9 @@ use strict;
 use lib 't/';
 use Util;
 
+# We used to have text-invalid-entity if the entities had an invalid value, but we no longer do.
 checkit( [
     [ 'text-unknown-entity' => qr/Entity &metalhorns; is unknown/ ],
-    [ 'text-invalid-entity' => qr/Entity &#8675309; is invalid/ ],
-    [ 'text-invalid-entity' => qr/Entity &#xdeadbeef; is invalid/ ],
     [ 'text-unknown-entity' => qr/Entity &xdeadbeef; is unknown/ ],
 ], [<DATA>] );
 

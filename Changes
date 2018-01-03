@@ -6,6 +6,13 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+2.27_03 Wed Jan  3 17:07:07 CST 2018
+    [FIXES]
+    Removed the text-invalid-entity and attr-invalid-entity, which were
+    for entities that had an invalid numeric value, anything greater
+    than &#65536.  There is no longer a restriction on the numeric values
+    of HTML entities. (GH#60)
+
 2.27_02 Wed Dec 27 11:46:28 CST 2017
     There are be no functionality changes since 2.27_01.
 

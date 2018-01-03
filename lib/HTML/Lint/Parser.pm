@@ -205,14 +205,10 @@ sub _entity {
             }
         }
         elsif ( $match =~ m/^#(\d+);$/ ) {
-            if ( $1 > 65536 ) {
-                $self->gripe( $type . '-invalid-entity', entity => "&$match" );
-            }
+            # All numeric entities are OK.  We used to check that they were in a given range.
         }
         elsif ( $match =~ m/^#x([\dA-F]+);$/i ) {
-            if ( length($1) > 4 ) {
-                $self->gripe( $type . '-invalid-entity', entity => "&$match" );
-            }
+            # All hex entities OK.  We used to check that they were in a given range.
         }
         else {
             $match =~ s/;$//;
