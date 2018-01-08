@@ -6,9 +6,10 @@ use strict;
 use lib 't/';
 use Util;
 
+
+# We used to have attr-invalid-entity if the entities had an invalid value, but we no longer do.
+
 checkit( [
-    [ 'attr-invalid-entity' => qr/Entity &#8675309; is invalid/i ],
-    [ 'attr-invalid-entity' => qr/Entity &#xdeadbeef; is invalid/ ],
 ], [<DATA>] );
 
 __DATA__
