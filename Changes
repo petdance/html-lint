@@ -6,6 +6,12 @@ NOTE: All bugs and requests are now being handled through GitHub.
 
 Please DO NOT send bug reports to http://rt.cpan.org/.
 
+
+2.32    Fri Jun 22 15:57:39 CDT 2018
+    [ENHANCEMENTS]
+    Allow "weblint -" to read from STDIN.  Thanks, Frank Dana.
+
+
 2.30    Sun Jan  7 22:02:25 CST 2018
     No changes since 2.27_03.
 
